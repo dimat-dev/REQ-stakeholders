@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MISIÓN ESCUCHA v2 — AppCampus · Sesión 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Karla:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+/* ── RESET & TOKENS ─────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#080c14; --paper:#0d1220; --surface:#111827;
+  --border:#1a2438; --border2:#243050;
+  --green:#22c55e; --green-d:#15803d; --green-glow:rgba(34,197,94,.14);
+  --amber:#f59e0b; --amber-glow:rgba(245,158,11,.12);
+  --blue:#3b82f6; --blue-glow:rgba(59,130,246,.12);
+  --red:#ef4444; --red-glow:rgba(239,68,68,.1);
+  --purple:#a78bfa; --purple-glow:rgba(167,139,250,.1);
+  --muted:#374151; --text:#e2e8f0; --text-d:#94a3b8; --text-b:#f9fafb;
+  --font-h:'Syne',sans-serif; --font-b:'Karla',sans-serif;
+  --r:10px; --r2:14px;
+  --ease:.28s cubic-bezier(.4,0,.2,1);
+}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--text);font-family:var(--font-b);font-size:16px;line-height:1.65;min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:0}
+
+/* ── TOPBAR ──────────────────────────────────────── */
+.topbar{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.65rem 1.5rem;background:rgba(8,12,20,.93);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.brand{font-family:var(--font-h);font-weight:800;font-size:.92rem;letter-spacing:.1em;text-transform:uppercase;color:var(--green)}
+.brand span{color:var(--text-d)}
+.steps-track{display:flex;align-items:center;gap:.35rem}
+.step-pip{
+  height:4px;border-radius:2px;transition:var(--ease);cursor:pointer;
+  background:var(--border2);
+}
+.step-pip.w-sm{width:22px}
+.step-pip.w-md{width:36px}
+.step-pip.done{background:var(--green)}
+.step-pip.active{background:var(--amber);box-shadow:0 0 8px var(--amber)}
+.step-pip-label{font-size:.65rem;color:var(--text-d);margin-left:.25rem;display:none}
+@media(min-width:600px){.step-pip-label{display:inline}}
+
+/* ── HERO ────────────────────────────────────────── */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:6rem 2rem 4rem;overflow:hidden}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(34,197,94,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.03) 1px,transparent 1px);background-size:44px 44px}
+.hero-scan{position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--green),transparent);animation:scan 5s ease-in-out infinite;opacity:.5}
+@keyframes scan{0%{top:0;opacity:0}10%{opacity:.5}90%{opacity:.5}100%{top:100%;opacity:0}}
+.badge{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--font-h);font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--green);border:1px solid var(--green-d);padding:.28rem .85rem;border-radius:2px;margin-bottom:1.5rem;position:relative;z-index:1}
+.hero-h{font-family:var(--font-h);font-weight:800;font-size:clamp(2.8rem,7.5vw,5.5rem);line-height:.92;letter-spacing:-.025em;color:var(--text-b);position:relative;z-index:1;margin-bottom:.4rem}
+.hero-h em{color:var(--green);font-style:normal;display:block}
+.hero-sub{font-size:1.05rem;color:var(--text-d);max-width:460px;position:relative;z-index:1;margin-bottom:2.5rem}
+.hero-meta{display:flex;gap:1.25rem;flex-wrap:wrap;position:relative;z-index:1;margin-bottom:3rem}
+.meta-c{display:flex;align-items:center;gap:.4rem;font-size:.82rem;color:var(--text-d)}
+.meta-c svg{width:13px;height:13px;stroke:var(--green);flex-shrink:0}
+.hero-modules{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.75rem;position:relative;z-index:1;margin-bottom:3rem;max-width:740px;width:100%}
+.mod-chip{background:var(--surface);border:1px solid var(--border2);border-radius:var(--r);padding:.85rem 1rem;display:flex;align-items:center;gap:.75rem;cursor:pointer;transition:var(--ease)}
+.mod-chip:hover{border-color:var(--green);transform:translateY(-1px)}
+.mod-chip .mc-n{font-family:var(--font-h);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--green);margin-bottom:.1rem}
+.mod-chip .mc-t{font-family:var(--font-h);font-weight:700;font-size:.85rem;color:var(--text-b)}
+.mod-chip .mc-s{font-size:.72rem;color:var(--text-d)}
+.mod-icon{font-size:1.4rem;flex-shrink:0}
+.cta{font-family:var(--font-h);font-weight:700;font-size:.88rem;letter-spacing:.07em;text-transform:uppercase;background:var(--green);color:#000;border:none;padding:.9rem 2.2rem;border-radius:var(--r);cursor:pointer;position:relative;z-index:1;transition:var(--ease);display:inline-flex;align-items:center;gap:.55rem}
+.cta:hover{background:#16a34a;transform:translateY(-1px);box-shadow:0 8px 24px rgba(34,197,94,.28)}
+.cta svg{width:16px;height:16px}
+.hero-watermark{position:absolute;bottom:1.5rem;right:1.5rem;font-family:var(--font-h);font-size:5rem;font-weight:800;color:rgba(255,255,255,.025);pointer-events:none}
+
+/* ── SECTION ─────────────────────────────────────── */
+.section{display:none;max-width:880px;margin:0 auto;padding:3rem 1.5rem 7rem}
+.section.active{display:block;animation:fadeUp .45s ease forwards}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.sec-label{font-family:var(--font-h);font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--green);margin-bottom:.4rem}
+.sec-title{font-family:var(--font-h);font-weight:800;font-size:2rem;line-height:1.1;color:var(--text-b);margin-bottom:.65rem}
+.sec-desc{font-size:.97rem;color:var(--text-d);max-width:580px;margin-bottom:2.5rem;border-left:3px solid var(--green);padding-left:1rem}
+
+/* ── CARDS & BLOCKS ──────────────────────────────── */
+.card{background:var(--surface);border:1px solid var(--border2);border-radius:var(--r2);padding:1.75rem;margin-bottom:1.25rem;position:relative;overflow:hidden}
+.card-accent::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--green)}
+.card h3{font-family:var(--font-h);font-weight:700;font-size:1.05rem;color:var(--text-b);margin-bottom:.65rem;display:flex;align-items:center;gap:.55rem}
+.card h3 .ic{width:30px;height:30px;border-radius:7px;background:var(--green-glow);border:1px solid var(--green-d);display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0}
+.card p{color:var(--text-d);font-size:.92rem;line-height:1.72;margin-bottom:.7rem}
+.card p:last-child{margin-bottom:0}
+.card strong{color:var(--text)}
+.card em{color:var(--green);font-style:italic}
+
+.callout{background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.22);border-radius:var(--r);padding:1.1rem 1.35rem;margin:1.1rem 0}
+.callout-l{font-family:var(--font-h);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:.3rem}
+.callout p{color:var(--text);font-size:.9rem;margin:0}
+
+.warn{background:var(--amber-glow);border:1px solid rgba(245,158,11,.25);border-radius:var(--r);padding:1rem 1.25rem;margin:1rem 0}
+.warn p{color:#fcd34d;font-size:.88rem;margin:0}
+
+/* ── FLIP CARDS ──────────────────────────────────── */
+.flip-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:.85rem;margin:1.25rem 0}
+.flip-card{height:170px;cursor:pointer;perspective:600px}
+.fci{width:100%;height:100%;transition:transform .5s cubic-bezier(.4,0,.2,1);transform-style:preserve-3d;position:relative}
+.flip-card:hover .fci,.flip-card.flipped .fci{transform:rotateY(180deg)}
+.ff,.fb{position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--r);padding:1.1rem;display:flex;flex-direction:column;justify-content:center}
+.ff{background:var(--surface);border:1px solid var(--border2);align-items:center;text-align:center}
+.ff .big{font-size:2rem;margin-bottom:.4rem}
+.ff h4{font-family:var(--font-h);font-weight:700;font-size:.88rem;color:var(--text-b)}
+.ff small{font-size:.7rem;color:var(--text-d);margin-top:.15rem}
+.fb{background:var(--green);transform:rotateY(180deg)}
+.fb p{font-size:.83rem;color:#000;line-height:1.5;font-weight:600}
+.flip-hint{font-size:.7rem;color:var(--muted);text-align:center;margin-top:.4rem;font-style:italic;color:var(--text-d)}
+
+/* ── MATRIX ──────────────────────────────────────── */
+.mx{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:2px;background:var(--border);border-radius:var(--r);overflow:hidden;margin:1.25rem 0}
+.mx-c{background:var(--surface);padding:1.1rem}
+.mx-c h4{font-family:var(--font-h);font-weight:700;font-size:.82rem;margin-bottom:.3rem}
+.mx-c p{font-size:.78rem;color:var(--text-d);line-height:1.45}
+.mx-c .tag{display:inline-block;font-size:.65rem;letter-spacing:.04em;text-transform:uppercase;font-family:var(--font-h);padding:.17rem .55rem;border-radius:3px;margin-bottom:.4rem}
+.tc1 .tag{background:rgba(239,68,68,.15);color:#ef4444}
+.tc2 .tag{background:rgba(34,197,94,.15);color:#22c55e}
+.tc3 .tag{background:rgba(59,130,246,.15);color:#3b82f6}
+.tc4 .tag{background:rgba(148,163,184,.1);color:#94a3b8}
+
+/* ══ MODULE 2: CASE FILE ════════════════════════════ */
+.cf-section{margin-bottom:2.5rem}
+.cf-title{font-family:var(--font-h);font-weight:800;font-size:1.15rem;color:var(--text-b);margin-bottom:.2rem;display:flex;align-items:center;gap:.6rem}
+.cf-title .num{width:28px;height:28px;border-radius:6px;background:var(--green);color:#000;font-size:.82rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cf-sub{font-size:.85rem;color:var(--text-d);margin-bottom:1.25rem}
+
+/* email box */
+.email-box{background:var(--ink);border:1px solid var(--border2);border-radius:var(--r);overflow:hidden;margin-bottom:1.25rem}
+.email-bar{background:var(--surface);padding:.65rem 1rem;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:.15rem}
+.email-bar span{font-size:.78rem;color:var(--text-d)}
+.email-bar span b{color:var(--text)}
+.email-body{padding:1.1rem;font-size:.88rem;color:var(--text-d);line-height:1.72}
+.email-body p{margin-bottom:.65rem}
+.email-body p:last-child{margin:0}
+.email-highlight{background:rgba(245,158,11,.15);border-radius:3px;padding:.05rem .25rem;color:#fcd34d;cursor:pointer;position:relative;transition:var(--ease)}
+.email-highlight:hover{background:rgba(245,158,11,.3)}
+
+/* req table */
+.req-table-wrap{overflow-x:auto;margin-bottom:1rem}
+.req-table{width:100%;border-collapse:collapse;font-size:.84rem}
+.req-table th{background:var(--surface);color:var(--text-d);font-family:var(--font-h);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;padding:.55rem .85rem;border-bottom:1px solid var(--border2);text-align:left;white-space:nowrap}
+.req-table td{padding:.55rem .85rem;border-bottom:1px solid var(--border);vertical-align:top}
+.req-table tr:last-child td{border-bottom:none}
+.req-table tr:hover td{background:rgba(255,255,255,.02)}
+.type-rf{display:inline-block;background:rgba(34,197,94,.15);color:var(--green);font-family:var(--font-h);font-size:.65rem;letter-spacing:.06em;padding:.18rem .55rem;border-radius:3px;font-weight:700}
+.type-rnf{background:rgba(59,130,246,.15);color:#60a5fa}
+.type-rd{background:rgba(167,139,250,.15);color:var(--purple)}
+.req-table .implicit{color:var(--amber);font-size:.75rem}
+
+/* hypothesis form */
+.hyp-field{margin-bottom:1.1rem}
+.hyp-label{font-family:var(--font-h);font-weight:700;font-size:.78rem;letter-spacing:.07em;text-transform:uppercase;color:var(--green);margin-bottom:.4rem;display:block}
+.hyp-sub{font-size:.8rem;color:var(--text-d);margin-bottom:.5rem}
+textarea, input[type=text]{
+  width:100%;background:var(--ink);border:1px solid var(--border2);
+  border-radius:var(--r);color:var(--text);font-family:var(--font-b);font-size:.88rem;
+  padding:.7rem .9rem;resize:vertical;min-height:72px;transition:var(--ease);
+}
+input[type=text]{min-height:auto;resize:none}
+textarea:focus, input[type=text]:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px var(--green-glow)}
+textarea::placeholder, input::placeholder{color:var(--muted)}
+
+/* tag input */
+.tag-input-wrap{display:flex;flex-wrap:wrap;gap:.45rem;align-items:center;background:var(--ink);border:1px solid var(--border2);border-radius:var(--r);padding:.5rem .75rem;min-height:44px;cursor:text;transition:var(--ease)}
+.tag-input-wrap:focus-within{border-color:var(--green);box-shadow:0 0 0 3px var(--green-glow)}
+.tiw-tag{display:inline-flex;align-items:center;gap:.3rem;background:var(--green-glow);border:1px solid var(--green-d);color:var(--green);font-size:.78rem;font-family:var(--font-h);font-weight:700;padding:.2rem .6rem;border-radius:4px}
+.tiw-tag button{background:none;border:none;color:var(--green);cursor:pointer;font-size:.85rem;line-height:1;padding:0;opacity:.7}
+.tiw-tag button:hover{opacity:1}
+.tag-input-wrap input{flex:1;min-width:120px;background:none;border:none;color:var(--text);font-size:.88rem;outline:none;padding:.1rem 0}
+
+/* priority selector */
+.prio-grid{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.4rem}
+.prio-btn{padding:.35rem .85rem;border-radius:6px;border:1px solid var(--border2);background:none;color:var(--text-d);font-family:var(--font-h);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;font-weight:700;cursor:pointer;transition:var(--ease)}
+.prio-btn:hover{border-color:var(--green);color:var(--green)}
+.prio-btn.sel{border-color:var(--green);background:var(--green-glow);color:var(--green)}
+
+/* ══ MODULE 3: FIELD ════════════════════════════════ */
+.targets-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1.1rem;margin-top:1.5rem}
+.tc{background:var(--surface);border:1px solid var(--border2);border-radius:var(--r2);overflow:hidden;transition:var(--ease);position:relative}
+.tc:hover{border-color:var(--green);transform:translateY(-2px);box-shadow:0 8px 28px rgba(34,197,94,.1)}
+.tc.done-int{border-color:var(--blue);opacity:.75}
+.tc.done-int::after{content:'✓ Entrevistado';position:absolute;top:.7rem;right:.7rem;font-size:.68rem;font-family:var(--font-h);color:var(--blue);background:var(--blue-glow);border:1px solid rgba(59,130,246,.25);padding:.18rem .55rem;border-radius:4px}
+.tc-h{padding:1.1rem 1.1rem .65rem;display:flex;align-items:flex-start;gap:.7rem}
+.tc-av{width:46px;height:46px;border-radius:9px;font-size:1.35rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.tc-i h4{font-family:var(--font-h);font-weight:700;font-size:.92rem;color:var(--text-b);margin-bottom:.1rem}
+.tc-role{font-size:.72rem;color:var(--green);font-weight:600;letter-spacing:.04em}
+.tc-b{padding:0 1.1rem 1.1rem}
+.tc-loc{display:flex;align-items:flex-start;gap:.35rem;font-size:.78rem;color:var(--text-d);margin-bottom:.55rem}
+.tc-loc svg{width:11px;height:11px;stroke:var(--amber);flex-shrink:0;margin-top:.2rem}
+.tc-desc{font-size:.8rem;color:var(--text-d);line-height:1.5;margin-bottom:.7rem}
+.tc-btn{width:100%;font-family:var(--font-h);font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:var(--green-glow);border:1px solid var(--green-d);color:var(--green);padding:.58rem;border-radius:7px;cursor:pointer;transition:var(--ease)}
+.tc-btn:hover{background:var(--green);color:#000}
+
+/* ══ MODULE 4: COMPARISON ═══════════════════════════ */
+.compare-intro{background:var(--surface);border:1px solid var(--border2);border-radius:var(--r2);padding:1.35rem 1.5rem;margin-bottom:1.75rem}
+.compare-intro p{font-size:.9rem;color:var(--text-d);margin:0}
+
+/* Hypothesis vs Field */
+.compare-block{background:var(--surface);border:1px solid var(--border2);border-radius:var(--r2);overflow:hidden;margin-bottom:1.25rem}
+.cb-header{padding:1.1rem 1.35rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.75rem}
+.cb-header .av{font-size:1.3rem}
+.cb-header h4{font-family:var(--font-h);font-weight:700;font-size:.95rem;color:var(--text-b)}
+.cb-header .rl{font-size:.72rem;color:var(--green)}
+.cb-cols{display:grid;grid-template-columns:1fr 1fr;gap:0}
+@media(max-width:580px){.cb-cols{grid-template-columns:1fr}}
+.cb-col{padding:1.1rem 1.35rem}
+.cb-col+.cb-col{border-left:1px solid var(--border)}
+.cb-col-title{font-family:var(--font-h);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.75rem;display:flex;align-items:center;gap:.4rem}
+.cb-col-title.before{color:var(--amber)}
+.cb-col-title.after{color:var(--green)}
+.cb-col-title .dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0}
+
+/* comparison items */
+.cmp-item{display:flex;align-items:flex-start;gap:.55rem;margin-bottom:.65rem;font-size:.85rem}
+.cmp-item:last-child{margin-bottom:0}
+.cmp-status{width:18px;height:18px;border-radius:4px;flex-shrink:0;margin-top:.12rem;display:flex;align-items:center;justify-content:center;font-size:.68rem}
+.st-conf{background:rgba(34,197,94,.2);color:var(--green)}
+.st-part{background:rgba(245,158,11,.18);color:var(--amber)}
+.st-wrong{background:rgba(239,68,68,.18);color:var(--red)}
+.st-new{background:rgba(167,139,250,.18);color:var(--purple)}
+.st-empty{background:var(--border2);color:var(--text-d)}
+.cmp-text{color:var(--text-d);line-height:1.5}
+.cmp-text.confirmed{color:var(--text)}
+.cmp-text.new-disc{color:var(--purple)}
+.cmp-text em{color:var(--amber);font-style:normal;font-size:.78rem}
+
+/* req comparison table */
+.req-compare-table{width:100%;border-collapse:collapse;font-size:.82rem}
+.req-compare-table th{background:rgba(255,255,255,.04);color:var(--text-d);font-family:var(--font-h);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;padding:.55rem .9rem;border-bottom:1px solid var(--border2);text-align:left}
+.req-compare-table td{padding:.6rem .9rem;border-bottom:1px solid var(--border);vertical-align:top}
+.req-compare-table tr:last-child td{border-bottom:none}
+.status-pill{display:inline-flex;align-items:center;gap:.3rem;font-family:var(--font-h);font-size:.68rem;letter-spacing:.04em;padding:.2rem .55rem;border-radius:4px}
+.sp-confirmed{background:rgba(34,197,94,.15);color:var(--green)}
+.sp-expanded{background:rgba(245,158,11,.15);color:var(--amber)}
+.sp-new{background:rgba(167,139,250,.15);color:var(--purple)}
+.sp-missing{background:rgba(239,68,68,.12);color:var(--red)}
+
+/* insights */
+.insight-card{background:var(--surface);border:1px solid var(--border2);border-radius:var(--r2);padding:1.5rem;margin-bottom:1.25rem}
+.insight-card h3{font-family:var(--font-h);font-weight:800;font-size:1rem;color:var(--text-b);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.ins-item{display:flex;gap:.65rem;align-items:flex-start;margin-bottom:.7rem;font-size:.88rem;color:var(--text-d);padding:.6rem .85rem;background:rgba(255,255,255,.025);border-radius:7px}
+.ins-item:last-child{margin-bottom:0}
+.ins-icon{font-size:1.1rem;flex-shrink:0;margin-top:.05rem}
+.ins-item strong{color:var(--text)}
+
+/* ══ MODAL ══════════════════════════════════════════ */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(6px);z-index:200;overflow-y:auto;padding:2rem 1rem;align-items:flex-start;justify-content:center}
+.overlay.open{display:flex}
+.modal{background:var(--surface);border:1px solid var(--border2);border-radius:16px;max-width:640px;width:100%;overflow:hidden;animation:slideIn .3s ease}
+@keyframes slideIn{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
+.modal-h{padding:1.35rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.9rem}
+.modal-av{width:52px;height:52px;border-radius:11px;font-size:1.5rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.modal-t h3{font-family:var(--font-h);font-weight:800;font-size:1.1rem;color:var(--text-b);margin-bottom:.1rem}
+.modal-t p{font-size:.8rem;color:var(--text-d)}
+.modal-x{margin-left:auto;background:none;border:none;color:var(--text-d);cursor:pointer;font-size:1.2rem;padding:.35rem;border-radius:6px;transition:var(--ease);line-height:1}
+.modal-x:hover{color:var(--text);background:var(--border2)}
+.modal-b{padding:1.5rem}
+.mint{background:var(--amber-glow);border:1px solid rgba(245,158,11,.22);border-radius:8px;padding:.9rem 1.1rem;margin-bottom:1.5rem}
+.mint p{font-size:.85rem;color:#fcd34d;margin:0}
+.qb{margin-bottom:1.4rem}
+.qb-l{font-family:var(--font-h);font-weight:700;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--green);margin-bottom:.35rem;display:flex;align-items:center;gap:.35rem}
+.qnum{width:18px;height:18px;border-radius:50%;background:var(--green);color:#000;font-size:.65rem;font-weight:800;display:flex;align-items:center;justify-content:center}
+.q-txt{font-size:.9rem;color:var(--text);margin-bottom:.5rem;font-style:italic}
+.modal-f{padding:1.1rem 1.5rem;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:.75rem}
+.btn-save{font-family:var(--font-h);font-weight:700;font-size:.82rem;letter-spacing:.07em;text-transform:uppercase;background:var(--green);color:#000;border:none;padding:.7rem 1.6rem;border-radius:8px;cursor:pointer;transition:var(--ease)}
+.btn-save:hover{background:#16a34a}
+.btn-cancel{background:none;border:1px solid var(--border2);color:var(--text-d);font-family:var(--font-b);font-size:.85rem;padding:.7rem 1.1rem;border-radius:8px;cursor:pointer;transition:var(--ease)}
+.btn-cancel:hover{border-color:var(--text-d);color:var(--text)}
+
+/* ══ NAV ════════════════════════════════════════════ */
+.step-nav{display:flex;justify-content:space-between;align-items:center;padding-top:2.5rem;border-top:1px solid var(--border);margin-top:3rem}
+.snav-btn{font-family:var(--font-h);font-weight:700;font-size:.8rem;letter-spacing:.07em;text-transform:uppercase;padding:.72rem 1.6rem;border-radius:8px;border:1px solid var(--border2);background:none;color:var(--text-d);cursor:pointer;transition:var(--ease);display:flex;align-items:center;gap:.45rem}
+.snav-btn:hover:not(:disabled){border-color:var(--green);color:var(--green)}
+.snav-btn:disabled{opacity:.28;cursor:not-allowed}
+.snav-btn.primary{background:var(--green);color:#000;border-color:var(--green)}
+.snav-btn.primary:hover:not(:disabled){background:#16a34a}
+.snav-info{text-align:center;font-size:.78rem;color:var(--muted)}
+
+/* unlock */
+.unlock-bar{display:flex;align-items:center;gap:.7rem;background:var(--amber-glow);border:1px solid rgba(245,158,11,.2);border-radius:8px;padding:.9rem 1.1rem;margin-top:1.25rem}
+.unlock-bar p{font-size:.85rem;color:#fcd34d;margin:0}
+
+/* divider */
+.div{height:1px;background:var(--border);margin:2rem 0;position:relative}
+.div::after{content:attr(data-l);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--paper);padding:0 .9rem;font-size:.66rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;font-family:var(--font-h)}
+
+/* toast */
+#toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:#15803d;color:#fff;font-family:var(--font-h);font-size:.85rem;font-weight:700;padding:.7rem 1.6rem;border-radius:10px;opacity:0;transition:all .3s;z-index:500;pointer-events:none;white-space:nowrap;box-shadow:0 8px 28px rgba(0,0,0,.5)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* read bar */
+.rbar-wrap{background:var(--border);border-radius:3px;height:3px;margin-top:1.25rem;overflow:hidden}
+.rbar{height:100%;background:var(--green);width:0%;transition:width .4s ease;border-radius:3px}
+.rlabel{font-size:.72rem;color:var(--text-d);margin-top:.35rem;text-align:right}
+
+@media(max-width:580px){
+  .hero{padding:4.5rem 1.25rem 3rem}
+  .targets-grid{grid-template-columns:1fr}
+  .step-nav{flex-direction:column;gap:.75rem}
+  .snav-info{order:-1}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<nav class="topbar">
+  <span class="brand">MISIÓN <span>ESCUCHA</span></span>
+  <div class="steps-track" id="stepsTrack"></div>
+</nav>
+
+<!-- ══ HERO ══════════════════════════════════════════ -->
+<section class="hero" id="sec0">
+  <div class="hero-grid"></div>
+  <div class="hero-scan"></div>
+  <div class="badge">AppCampus · Sesión 2 · Análisis de Requerimientos</div>
+  <h1 class="hero-h">MISIÓN<em>ESCUCHA</em></h1>
+  <p class="hero-sub">Un analista no inventa los requerimientos. Los <strong>encuentra</strong>. Hoy vas a salir al campus a buscarlos.</p>
+  <div class="hero-meta">
+    <span class="meta-c"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>~100 minutos</span>
+    <span class="meta-c"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Individual o en parejas</span>
+    <span class="meta-c"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Centro de Automatización SENA</span>
+  </div>
+  <div class="hero-modules">
+    <div class="mod-chip" onclick="goTo(1)">
+      <span class="mod-icon">📖</span>
+      <div><div class="mc-n">Módulo 1</div><div class="mc-t">Briefing</div><div class="mc-s">Quiénes son los stakeholders</div></div>
+    </div>
+    <div class="mod-chip" onclick="goTo(2)">
+      <span class="mod-icon">🗂️</span>
+      <div><div class="mc-n">Módulo 2</div><div class="mc-t">El Archivo</div><div class="mc-s">Lo que ya sabes de AppCampus</div></div>
+    </div>
+    <div class="mod-chip" onclick="goTo(3)">
+      <span class="mod-icon">🎤</span>
+      <div><div class="mc-n">Módulo 3</div><div class="mc-t">Campo</div><div class="mc-s">Entrevistar personas reales</div></div>
+    </div>
+    <div class="mod-chip" onclick="goTo(4)">
+      <span class="mod-icon">⚖️</span>
+      <div><div class="mc-n">Módulo 4</div><div class="mc-t">Comparar</div><div class="mc-s">Hipótesis vs. realidad</div></div>
+    </div>
+    <div class="mod-chip" onclick="goTo(5)">
+      <span class="mod-icon">🏁</span>
+      <div><div class="mc-n">Módulo 5</div><div class="mc-t">Cierre</div><div class="mc-s">Conclusiones</div></div>
+    </div>
+  </div>
+  <button class="cta" onclick="goTo(1)">
+    <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg>
+    Iniciar Misión
+  </button>
+  <div class="hero-watermark">SENA</div>
+</section>
+
+<!-- ══ SECCIÓN 1: BRIEFING ═══════════════════════════ -->
+<section class="section" id="sec1">
+  <div class="sec-label">Módulo 01 — Briefing</div>
+  <h2 class="sec-title">¿Quién está detrás de una app?</h2>
+  <p class="sec-desc">Antes de salir al campo, necesitas entender a quién estás buscando y por qué importa tanto encontrarlo.</p>
+
+  <div class="card card-accent">
+    <h3><span class="ic">🧩</span> ¿Qué es un stakeholder?</h3>
+    <p>La palabra <strong>stakeholder</strong> viene del inglés <em>stake</em> (interés) y <em>holder</em> (titular). Literalmente: alguien que tiene algo en juego.</p>
+    <p>En software, un stakeholder es <strong>toda persona, grupo u organización que afecta o es afectada por el sistema</strong>. No importa si la persona sabe que existe el proyecto. Si el sistema impacta su vida o trabajo, es un stakeholder.</p>
+    <div class="callout"><div class="callout-l">Ejemplo real</div><p>Cuando WhatsApp cambió sus políticas de privacidad en 2021, millones de personas que nunca participaron en el diseño resultaron afectadas. El equipo de análisis los ignoró — y pagó el costo reputacional. Todos ellos eran stakeholders.</p></div>
+    <p>La diferencia entre un proyecto que triunfa y uno que fracasa frecuentemente está en cuántos stakeholders fueron <em>escuchados antes</em> de escribir código.</p>
+  </div>
+
+  <div class="card card-accent">
+    <h3><span class="ic">🔍</span> Los que siempre se olvidan</h3>
+    <p>El error clásico: el equipo habla solo con quien contrata y asume que representa a todos. Pero hay stakeholders que <strong>no van a reuniones</strong>, que <strong>no saben expresarse en términos técnicos</strong>, y que a veces ni saben que serán afectados.</p>
+    <p><strong>Usuarios indirectos:</strong> no usan el sistema directamente pero reciben sus resultados. <strong>Stakeholders negativos:</strong> personas a quienes el sistema les quita poder o ventajas y que se opondrán. <strong>Reguladores:</strong> entidades externas cuyas normas el sistema debe cumplir aunque nunca asistan a reuniones.</p>
+    <div class="callout"><div class="callout-l">Lección crítica</div><p>Un stakeholder ignorado no desaparece. Aparece después, cuando el sistema ya está construido, para decirte que no sirve o que viola sus derechos.</p></div>
+  </div>
+
+  <div class="card card-accent">
+    <h3><span class="ic">👥</span> Tipos de stakeholders — toca cada tarjeta</h3>
+    <p>Esta es la clasificación más útil para el análisis de requerimientos:</p>
+    <div class="flip-grid">
+      <div class="flip-card" onclick="this.classList.toggle('flipped')"><div class="fci">
+        <div class="ff"><div class="big">🏦</div><h4>Patrocinador</h4><small>¿Quién es?</small></div>
+        <div class="fb"><p>Aprueba el presupuesto y define los objetivos estratégicos. Casi nunca usa el sistema pero tiene el poder de cancelarlo.</p></div>
+      </div></div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')"><div class="fci">
+        <div class="ff"><div class="big">🤝</div><h4>Cliente Directo</h4><small>¿Quién es?</small></div>
+        <div class="fb"><p>Tiene el problema y define lo que necesita. Participa en reuniones de análisis. Es tu interlocutor principal.</p></div>
+      </div></div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')"><div class="fci">
+        <div class="ff"><div class="big">👨‍💻</div><h4>Usuario Final</h4><small>¿Quién es?</small></div>
+        <div class="fb"><p>Usa el sistema a diario. Sabe exactamente qué duele y qué funciona bien. Rara vez asiste a reuniones formales.</p></div>
+      </div></div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')"><div class="fci">
+        <div class="ff"><div class="big">⚖️</div><h4>Regulador</h4><small>¿Quién es?</small></div>
+        <div class="fb"><p>Entidad que impone normas obligatorias: Supervigilancia, Ministerios, el SENA. No participa pero sus reglas son ley.</p></div>
+      </div></div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')"><div class="fci">
+        <div class="ff"><div class="big">🔧</div><h4>Equipo Técnico</h4><small>¿Quién es?</small></div>
+        <div class="fb"><p>Desarrolladores, diseñadores, DBAs. También son stakeholders: las decisiones de análisis afectan directamente su trabajo.</p></div>
+      </div></div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')"><div class="fci">
+        <div class="ff"><div class="big">🌐</div><h4>Afectado Externo</h4><small>¿Quién es?</small></div>
+        <div class="fb"><p>No usan el sistema pero lo sienten. Ejemplo: familias de aprendices si la app comparte datos sin consentimiento.</p></div>
+      </div></div>
+    </div>
+    <p class="flip-hint">Toca cada tarjeta para ver la definición</p>
+  </div>
+
+  <div class="card card-accent">
+    <h3><span class="ic">📊</span> La Matriz Poder / Interés</h3>
+    <p>Una vez identificados los stakeholders, necesitas saber <strong>cómo gestionarlos</strong>. Esta matriz cruza dos preguntas: ¿cuánta autoridad tiene para influir en el proyecto? y ¿cuánto le importa el resultado?</p>
+    <div class="mx">
+      <div class="mx-c tc1"><div class="tag">Alto poder, bajo interés</div><h4>Mantener satisfecho</h4><p>Informar periódicamente. Si se sienten excluidos pueden convertirse en opositores del proyecto.</p></div>
+      <div class="mx-c tc2"><div class="tag">Alto poder, alto interés</div><h4>Gestionar de cerca</h4><p>Aliados clave. Involúcralos en todas las decisiones y comunica avances con frecuencia.</p></div>
+      <div class="mx-c tc3"><div class="tag">Bajo poder, bajo interés</div><h4>Monitorear</h4><p>Mantener informados con esfuerzo mínimo. Pueden ganar relevancia si el proyecto los afecta más de lo previsto.</p></div>
+      <div class="mx-c tc4"><div class="tag">Bajo poder, alto interés</div><h4>Mantener informado</h4><p>Los usuarios finales típicos. Su experiencia importa aunque no tengan poder formal sobre el proyecto.</p></div>
+    </div>
+    <p>Esta matriz <em>no es un documento que haces una vez</em>. Es una herramienta viva que se actualiza durante todo el proyecto.</p>
+  </div>
+
+  <div class="card card-accent">
+    <h3><span class="ic">🗺️</span> ¿Cómo los encuentras en la práctica?</h3>
+    <p><strong>1. Análisis organizacional:</strong> Revisa el organigrama. Cada rol relacionado con el proceso es un stakeholder potencial.</p>
+    <p><strong>2. Seguimiento del flujo:</strong> Sigue el proceso de punta a punta. ¿Quién entrega información? ¿Quién la recibe? ¿Quién sufre cuando algo falla?</p>
+    <p><strong>3. La pregunta mágica:</strong> "¿Hay alguien más que debería saber de esto?" Cada stakeholder conoce a otros. Es una red que se expande sola.</p>
+    <p><strong>4. Análisis de impacto:</strong> Si el sistema falla mañana, ¿a quién le llega el problema primero? ¿Quién depende de los datos que genera?</p>
+    <div class="callout"><div class="callout-l">Error más común</div><p>Hablar solo con quien tiene el presupuesto. El sistema resultará técnicamente correcto pero inútil para quien lo usa a diario.</p></div>
+  </div>
+
+  <div class="rbar-wrap"><div class="rbar" id="readBar"></div></div>
+  <div class="rlabel" id="readLabel">Leyendo...</div>
+
+  <div class="step-nav">
+    <button class="snav-btn" onclick="goTo(0)">← Inicio</button>
+    <div class="snav-info">1 / 5</div>
+    <button class="snav-btn primary" onclick="goTo(2)">Módulo 2: El Archivo →</button>
+  </div>
+</section>
+
+<!-- ══ SECCIÓN 2: EL ARCHIVO / CASE FILE ═════════════ -->
+<section class="section" id="sec2">
+  <div class="sec-label">Módulo 02 — El Archivo del Caso</div>
+  <h2 class="sec-title">Lo que ya sabemos</h2>
+  <p class="sec-desc">Antes de salir al campus, registra todo lo que ya conoces sobre AppCampus. Esto es tu hipótesis de trabajo — luego la vas a confrontar con la realidad.</p>
+
+  <!-- A: The email -->
+  <div class="cf-section">
+    <div class="cf-title"><span class="num">A</span> El correo del cliente</div>
+    <div class="cf-sub">Este es el correo inicial del coordinador Carlos Méndez. Los fragmentos <span style="background:rgba(245,158,11,.2);color:#fcd34d;padding:.02rem .2rem;border-radius:2px">subrayados</span> contienen pistas de requerimientos. Léelo con atención de analista.</div>
+
+    <div class="email-box">
+      <div class="email-bar">
+        <span><b>De:</b> Carlos Méndez &lt;c.mendez@sena.edu.co&gt;</span>
+        <span><b>Para:</b> Equipo ADSO &lt;adso@sena.edu.co&gt;</span>
+        <span><b>Asunto:</b> Solicitud de desarrollo — AppCampus</span>
+      </div>
+      <div class="email-body">
+        <p>Cordial saludo equipo de ADSO,</p>
+        <p>Les escribo porque tenemos un <span class="email-highlight" title="→ Problema raíz: comunicación ineficiente" onclick="highlightNote(this)">problema serio en el campus</span>. Los aprendices <span class="email-highlight" title="→ Requerimiento implícito: sistema de notificaciones" onclick="highlightNote(this)">no se enteran de los eventos a tiempo</span>, los coordinadores <span class="email-highlight" title="→ RF: gestión de espacios y actividades" onclick="highlightNote(this)">pierden el control del préstamo de aulas</span> y la comunicación es un caos total. <span class="email-highlight" title="→ Urgencia: restricción de tiempo del proyecto" onclick="highlightNote(this)">Necesitamos una aplicación que solucione esto lo antes posible.</span></p>
+        <p>Pienso que la app debería tener algo para <span class="email-highlight" title="→ RF: publicación de eventos con título, descripción, fecha, cupo" onclick="highlightNote(this)">publicar noticias y eventos</span>. También que los <span class="email-highlight" title="→ RF: inscripción de aprendices a actividades" onclick="highlightNote(this)">estudiantes puedan inscribirse a actividades</span>. <span class="email-highlight" title="→ RF: consulta de lista de inscritos para docentes" onclick="highlightNote(this)">Los profesores deben poder ver quién se inscribió.</span> Y obviamente que <span class="email-highlight" title="→ RNF: interfaz responsiva / mobile-first" onclick="highlightNote(this)">funcione en el celular porque nadie usa computador.</span></p>
+        <p>Ah, y debe ser <span class="email-highlight" title="→ RNF: seguridad + RD: Ley 1581 protección de datos" onclick="highlightNote(this)">segura porque maneja datos de aprendices.</span> Y <span class="email-highlight" title="→ RNF: rendimiento con baja conectividad" onclick="highlightNote(this)">rápida, porque la internet del SENA no siempre es buena.</span></p>
+        <p>Quedamos atentos.  — <b>Carlos Méndez, Coordinador Académico SENA</b></p>
+      </div>
+    </div>
+    <div class="callout"><div class="callout-l">Instrucción</div><p>Toca cualquier frase subrayada para ver la nota de analista. Esas son las pistas que llevas a la fase de campo.</p></div>
+  </div>
+
+  <div class="div" data-l="Requerimientos identificados del correo"></div>
+
+  <!-- B: Requirements from email -->
+  <div class="cf-section">
+    <div class="cf-title"><span class="num">B</span> Requerimientos extraídos del correo</div>
+    <div class="cf-sub">Estos son los requerimientos que se pueden identificar en el correo de Carlos. Revísalos y complementa si encuentras alguno que falta.</div>
+
+    <div class="req-table-wrap">
+      <table class="req-table">
+        <thead>
+          <tr><th>#</th><th>Requerimiento</th><th>Tipo</th><th>Fuente</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>R01</td><td>El sistema DEBE permitir al coordinador publicar eventos con título, descripción, fecha y cupo máximo.</td><td><span class="type-rf">RF</span></td><td>Explícito</td></tr>
+          <tr><td>R02</td><td>El sistema DEBE permitir a los aprendices inscribirse a actividades disponibles.</td><td><span class="type-rf">RF</span></td><td>Explícito</td></tr>
+          <tr><td>R03</td><td>El sistema DEBE mostrar la lista de inscritos a cada actividad para los docentes.</td><td><span class="type-rf">RF</span></td><td>Explícito</td></tr>
+          <tr><td>R04</td><td>La interfaz de usuario DEBE ser compatible con dispositivos móviles (responsive design).</td><td><span class="type-rnf">RNF</span></td><td>Explícito</td></tr>
+          <tr><td>R05</td><td>Los datos personales de los aprendices DEBEN protegerse conforme a la Ley 1581 de Protección de Datos.</td><td><span class="type-rd">RD</span></td><td>Implícito</td></tr>
+          <tr><td>R06</td><td>El sistema DEBE funcionar con conexiones de mínimo 2 Mbps manteniendo tiempos de respuesta aceptables.</td><td><span class="type-rnf">RNF</span></td><td>Implícito</td></tr>
+          <tr><td>R07</td><td>El sistema DEBE tener autenticación de usuarios con credenciales institucionales del SENA.</td><td><span class="type-rf">RF</span></td><td><span class="implicit">⚠ Implícito — Carlos no lo dijo</span></td></tr>
+          <tr><td>R08</td><td>El coordinador DEBE poder gestionar el cupo de cada actividad (abrir, cerrar, modificar).</td><td><span class="type-rf">RF</span></td><td><span class="implicit">⚠ Implícito — inferido</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="hyp-field" style="margin-top:1rem">
+      <label class="hyp-label">¿Encontraste algún requerimiento adicional en el correo?</label>
+      <div class="hyp-sub">Escribe cualquier requerimiento que hayas identificado tú y que no aparece en la tabla de arriba.</div>
+      <textarea id="extraReqs" placeholder="Ej: El sistema debe permitir al coordinador adjuntar documentos a los eventos..." oninput="autoSave()"></textarea>
+    </div>
+  </div>
+
+  <div class="div" data-l="Tu hipótesis de stakeholders"></div>
+
+  <!-- C: Hypothesis -->
+  <div class="cf-section">
+    <div class="cf-title"><span class="num">C</span> Tu hipótesis — ¿Quiénes son los stakeholders?</div>
+    <div class="cf-sub">Basado en el correo de Carlos y en lo que sabes del SENA, escribe tu hipótesis antes de ir al campo. Después la vas a confrontar con la realidad.</div>
+
+    <div class="hyp-field">
+      <label class="hyp-label">¿Qué stakeholders crees que existen en AppCampus?</label>
+      <div class="hyp-sub">Escribe el nombre del rol y su relación con el sistema. Separa con Enter.</div>
+      <textarea id="hypStakeholders" rows="5" placeholder="Ej:&#10;Coordinador académico — quien define los requerimientos y gestiona eventos&#10;Aprendices — quienes se inscriben y consultan actividades&#10;Instructores — quienes supervisan la participación de aprendices&#10;..." oninput="autoSave()"></textarea>
+    </div>
+
+    <div class="hyp-field">
+      <label class="hyp-label">¿Quién crees que tiene más poder sobre el proyecto?</label>
+      <textarea id="hypPower" style="min-height:56px" placeholder="Escribe el rol y por qué crees que tiene más poder o autoridad sobre las decisiones del sistema..." oninput="autoSave()"></textarea>
+    </div>
+
+    <div class="hyp-field">
+      <label class="hyp-label">¿Qué problemas crees que tienen las personas del campus HOY (antes de AppCampus)?</label>
+      <div class="hyp-sub">Anota los problemas que imaginas antes de escuchar a nadie. Sin filtros.</div>
+      <textarea id="hypProblems" rows="4" placeholder="Ej:&#10;Los aprendices no se enteran de eventos hasta el último momento&#10;No hay forma de saber si un aula está disponible sin ir físicamente&#10;Los instructores no saben cuántos aprendices asistirán a sus talleres&#10;..." oninput="autoSave()"></textarea>
+    </div>
+
+    <div class="hyp-field">
+      <label class="hyp-label">¿Qué requerimiento crees que es el más importante para AppCampus?</label>
+      <textarea id="hypMostImportant" style="min-height:56px" placeholder="El requerimiento más crítico que crees que Carlos NO mencionó pero que sería indispensable para que el sistema funcione..." oninput="autoSave()"></textarea>
+    </div>
+
+    <div class="hyp-field">
+      <label class="hyp-label">¿Qué te sorprendería encontrar en el campo?</label>
+      <div class="hyp-sub">¿Qué stakeholder, problema o requerimiento sería inesperado para ti?</div>
+      <textarea id="hypSurprise" style="min-height:56px" placeholder="Si me encuentro que... / No me esperaría que..." oninput="autoSave()"></textarea>
+    </div>
+
+    <div class="callout">
+      <div class="callout-l">¿Por qué hacemos esto?</div>
+      <p>Escribir tus hipótesis antes de ir al campo te obliga a hacerlas <strong>explícitas</strong>. Cuando vuelvas con las respuestas reales, podrás ver exactamente qué estabas asumiendo sin saberlo. Eso es pensamiento analítico.</p>
+    </div>
+  </div>
+
+  <div class="step-nav">
+    <button class="snav-btn" onclick="goTo(1)">← Briefing</button>
+    <div class="snav-info">2 / 5</div>
+    <button class="snav-btn primary" onclick="saveAndGoField()">Archivo guardado — Ir al campo →</button>
+  </div>
+</section>
+
+<!-- ══ SECCIÓN 3: CAMPO ══════════════════════════════ -->
+<section class="section" id="sec3">
+  <div class="sec-label">Módulo 03 — Misión de Campo</div>
+  <h2 class="sec-title">Encuentra a los actores</h2>
+  <p class="sec-desc">En el Centro de Automatización hay personas reales que serán afectadas por AppCampus. Sal, preséntales el proyecto y registra sus respuestas.</p>
+
+  <div class="callout">
+    <div class="callout-l">Protocolo de campo</div>
+    <p><strong>1.</strong> Escoge al menos 2 perfiles. <strong>2.</strong> Ve a donde indica la tarjeta y preséntate como analista del proyecto AppCampus. <strong>3.</strong> Haz las preguntas y registra aquí. <strong>4.</strong> Regresa a comparar con tus hipótesis.</p>
+  </div>
+
+  <div class="targets-grid" id="targetsGrid"></div>
+
+  <div id="fieldUnlock" class="unlock-bar" style="display:none">
+    <span>🔒</span>
+    <p>Completa al menos <strong>2 entrevistas</strong> para desbloquear el módulo de comparación.</p>
+  </div>
+
+  <div class="step-nav">
+    <button class="snav-btn" onclick="goTo(2)">← El Archivo</button>
+    <div class="snav-info">3 / 5</div>
+    <button class="snav-btn primary" id="toCompareBtn" onclick="goTo(4)" disabled>Ver comparación →</button>
+  </div>
+</section>
+
+<!-- ══ SECCIÓN 4: COMPARACIÓN ════════════════════════ -->
+<section class="section" id="sec4">
+  <div class="sec-label">Módulo 04 — Comparar</div>
+  <h2 class="sec-title">Hipótesis vs. Realidad</h2>
+  <p class="sec-desc">Esto es el corazón de la misión. Lo que escribiste antes de salir vs. lo que encontraste. Los analistas aprenden de esa brecha.</p>
+
+  <div id="compareContent"></div>
+
+  <div class="step-nav">
+    <button class="snav-btn" onclick="goTo(3)">← Campo</button>
+    <div class="snav-info">4 / 5</div>
+    <button class="snav-btn primary" onclick="goTo(5)">Cierre →</button>
+  </div>
+</section>
+
+<!-- ══ SECCIÓN 5: CIERRE ═════════════════════════════ -->
+<section class="section" id="sec5">
+  <div class="sec-label">Misión completada</div>
+  <h2 class="sec-title">Eres Analista de Campo</h2>
+  <p class="sec-desc">Hoy hiciste lo que la mayoría de los equipos de software omite: saliste a escuchar a las personas reales antes de proponer soluciones.</p>
+
+  <div class="card card-accent">
+    <h3><span class="ic">🎯</span> Para llevar a la plenaria</h3>
+    <p><strong>1.</strong> El stakeholder más inesperado que encontraste — el que no habías pensado antes.</p>
+    <p><strong>2.</strong> El requerimiento más valioso que surgió de las entrevistas y que NO estaba en el correo de Carlos.</p>
+    <p><strong>3.</strong> La hipótesis que más te sorprendió que estuviera equivocada (o acertada).</p>
+    <p><strong>4.</strong> Una pregunta que no hiciste y que ahora quisieras haber hecho.</p>
+  </div>
+
+  <div class="card card-accent">
+    <h3><span class="ic">🚀</span> ¿Qué sigue?</h3>
+    <p><strong>Sesión 3:</strong> Técnicas de entrevista formal — cómo diseñar preguntas que revelan lo que el usuario no sabe que necesita.</p>
+    <p><strong>Sesión 5:</strong> Convertir estas observaciones en Requerimientos Funcionales y No Funcionales bien redactados con identificadores únicos.</p>
+    <p><strong>Sesión 12:</strong> Presentar todo como parte de la ERS oficial de AppCampus ante el jurado.</p>
+    <div class="callout"><div class="callout-l">Reflexión</div><p>Un requerimiento no viene de la imaginación del analista. Viene de las personas que tienen el problema. Tu trabajo es encontrarlas, escucharlas de verdad y traducir lo que dicen en especificaciones que un equipo puede construir.</p></div>
+  </div>
+
+  <div style="margin-top:2rem;text-align:center">
+    <button class="snav-btn" onclick="resetAll()" style="margin:0 auto;border-color:var(--border2)">↺ Reiniciar misión</button>
+  </div>
+</section>
+
+<!-- ══ MODAL DE ENTREVISTA ════════════════════════════ -->
+<div class="overlay" id="iOverlay">
+  <div class="modal" id="iModal">
+    <div class="modal-h">
+      <div class="modal-av" id="mAvatar"></div>
+      <div class="modal-t"><h3 id="mName"></h3><p id="mRole"></p></div>
+      <button class="modal-x" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-b">
+      <div class="mint"><p><strong>📍 Dónde encontrarlo/a:</strong> <span id="mLocation"></span><br>Preséntate brevemente: "Hola, somos aprendices del programa ADSO y estamos analizando los requerimientos de una app para el campus. ¿Le puedo hacer unas preguntas rápidas?"</p></div>
+      <div id="mQuestions"></div>
+    </div>
+    <div class="modal-f">
+      <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+      <button class="btn-save" onclick="saveInterview()">Guardar respuestas</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script>
+// ── TARGETS ──────────────────────────────────────────────────────
+const TARGETS = [
+  { id:'coordinador', name:'Coordinador Académico', role:'Autoridad del campus', emoji:'👔', bg:'rgba(34,197,94,.14)',
+    location:'Oficina de coordinación académica o recepción principal',
+    desc:'Gestiona las actividades del campus, aprueba eventos y tiene visión estratégica de las necesidades.',
+    questions:[
+      '¿Cuál es el mayor problema que tiene hoy para comunicar actividades a los aprendices?',
+      '¿Qué información necesita ver de un evento para tomar decisiones? (inscritos, cuotas, fechas)',
+      'Si pudiera cambiar UNA sola cosa del proceso actual de gestión del campus, ¿qué sería?',
+      '¿Existe alguna restricción institucional o normativa que una app de gestión deba cumplir obligatoriamente?'
+    ]
+  },
+  { id:'aprendiz', name:'Aprendiz ADSO', role:'Usuario principal del sistema', emoji:'🎓', bg:'rgba(59,130,246,.14)',
+    location:'Aulas de sistemas, zonas comunes o cafetería',
+    desc:'Usa los servicios del campus a diario. Su experiencia real con el proceso actual es la más valiosa.',
+    questions:[
+      '¿Cómo te enteras hoy de los eventos y actividades del campus? ¿Qué tan confiable es ese proceso?',
+      '¿Alguna vez te perdiste un evento importante por falta de información a tiempo? ¿Qué pasó?',
+      '¿Desde qué dispositivo preferirías usar una app del campus: celular, tableta o computador? ¿Por qué?',
+      '¿Qué función le pedirías sí o sí a una app de actividades del campus SENA?'
+    ]
+  },
+  { id:'instructor', name:'Instructor de Formación', role:'Facilitador de actividades', emoji:'👩‍🏫', bg:'rgba(245,158,11,.14)',
+    location:'Aulas de formación, sala de instructores o pasillos',
+    desc:'Organiza talleres y actividades. Necesita visibilidad de listas de participantes.',
+    questions:[
+      '¿Qué información necesita saber de los aprendices para planear una actividad académica?',
+      '¿Cómo gestiona actualmente la lista de asistencia o inscripción a sus actividades?',
+      '¿Cuánto tiempo le toma comunicar un evento a sus aprendices? ¿Qué canales usa?',
+      '¿Qué datos de un evento quisiera ver en tiempo real mientras se desarrolla?'
+    ]
+  },
+  { id:'bienestar', name:'Asesor/a de Bienestar', role:'Bienestar al aprendiz', emoji:'💚', bg:'rgba(16,185,129,.14)',
+    location:'Oficina de bienestar al aprendiz o área de servicios estudiantiles',
+    desc:'Gestiona actividades culturales, deportivas y de apoyo psicosocial.',
+    questions:[
+      '¿Qué tipos de actividades de bienestar organiza y cómo convoca a los aprendices?',
+      '¿Tiene acceso a datos de participación en actividades anteriores? ¿Cómo los registra?',
+      '¿Existen restricciones de privacidad que una app deba respetar al manejar datos de aprendices?',
+      '¿Qué le falta al proceso actual que una app podría resolver para las actividades de bienestar?'
+    ]
+  },
+  { id:'almacen', name:'Almacenista / Espacios', role:'Custodia de espacios y materiales', emoji:'🔑', bg:'rgba(139,92,246,.14)',
+    location:'Área de almacén o administración de espacios',
+    desc:'Gestiona el préstamo de aulas, auditorios, herramientas y equipos.',
+    questions:[
+      '¿Cómo se solicita y asigna actualmente un aula o espacio para un evento en el campus?',
+      '¿Cuántos conflictos de doble reserva de espacios ocurren aproximadamente por mes?',
+      '¿Qué información necesitaría ver en una app para gestionar el préstamo de espacios?',
+      '¿Hay alguna regla o restricción para el uso de espacios que el sistema deba respetar?'
+    ]
+  },
+  { id:'gestion', name:'Gestor de Formación', role:'Procesos administrativos', emoji:'📋', bg:'rgba(239,68,68,.14)',
+    location:'Área administrativa o secretaría académica',
+    desc:'Supervisa el cumplimiento de procesos de formación, informes y trazabilidad.',
+    questions:[
+      '¿Qué reportes necesita generar periódicamente sobre las actividades del campus?',
+      '¿Qué normativa del SENA regula las actividades que los aprendices pueden hacer dentro del campus?',
+      '¿Cómo se documenta actualmente la participación de los aprendices en actividades extracurriculares?',
+      '¿Qué información de AppCampus necesitaría exportar o integrar con los sistemas actuales del SENA?'
+    ]
+  }
+];
+
+// ── STATE ─────────────────────────────────────────────────────────
+let state = {
+  cur: 0,
+  interviews: {},
+  active: null,
+  caseFile: { extraReqs:'', hypStakeholders:'', hypPower:'', hypProblems:'', hypMostImportant:'', hypSurprise:'' }
+};
+try { const s = localStorage.getItem('misionV2'); if(s) state = JSON.parse(s); } catch(e){}
+
+function save(){ try { localStorage.setItem('misionV2', JSON.stringify(state)); } catch(e){} }
+
+// ── NAV ───────────────────────────────────────────────────────────
+function goTo(n){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('sec0').style.display='none';
+  if(n===0){ document.getElementById('sec0').style.display='block'; }
+  else { const s=document.getElementById(`sec${n}`); if(s) s.classList.add('active'); }
+  window.scrollTo({top:0,behavior:'smooth'});
+  state.cur=n; save(); updateSteps();
+  if(n===4) renderCompare();
+  if(n===3) renderTargets();
+}
+
+// ── STEPS TRACK ───────────────────────────────────────────────────
+const stepNames=['Inicio','Briefing','Archivo','Campo','Comparar','Cierre'];
+function updateSteps(){
+  const t=document.getElementById('stepsTrack');
+  t.innerHTML='';
+  stepNames.forEach((name,i)=>{
+    const d=document.createElement('div');
+    d.className='step-pip '+(i<2?'w-sm':'w-md');
+    if(i<state.cur) d.classList.add('done');
+    if(i===state.cur) d.classList.add('active');
+    d.title=name;
+    d.onclick=()=>goTo(i);
+    t.appendChild(d);
+  });
+}
+
+// ── READ BAR ──────────────────────────────────────────────────────
+window.addEventListener('scroll',()=>{
+  const b=document.getElementById('readBar'), l=document.getElementById('readLabel');
+  if(!b) return;
+  const s=document.getElementById('sec1');
+  if(!s||!s.classList.contains('active')) return;
+  const pct=Math.min(100,Math.max(0,(-s.getBoundingClientRect().top/(s.offsetHeight-window.innerHeight))*100));
+  b.style.width=pct+'%';
+  l.textContent=pct>=95?'¡Lectura completa!':`${Math.round(pct)}% leído`;
+});
+
+// ── AUTOSAVE ─────────────────────────────────────────────────────
+function autoSave(){
+  ['extraReqs','hypStakeholders','hypPower','hypProblems','hypMostImportant','hypSurprise'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) state.caseFile[id]=el.value;
+  });
+  save();
+}
+function saveAndGoField(){
+  autoSave();
+  showToast('✓ Archivo guardado — ¡al campo!');
+  goTo(3);
+}
+function highlightNote(el){ showToast(el.title||'Pista detectada'); }
+
+// ── TARGETS ──────────────────────────────────────────────────────
+function renderTargets(){
+  const g=document.getElementById('targetsGrid'); g.innerHTML='';
+  TARGETS.forEach(t=>{
+    const done=state.interviews[t.id]&&Object.values(state.interviews[t.id]).some(v=>v&&v.trim());
+    const c=document.createElement('div');
+    c.className='tc'+(done?' done-int':'');
+    c.innerHTML=`
+      <div class="tc-h">
+        <div class="tc-av" style="background:${t.bg}">${t.emoji}</div>
+        <div class="tc-i"><h4>${t.name}</h4><div class="tc-role">${t.role}</div></div>
+      </div>
+      <div class="tc-b">
+        <div class="tc-loc">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          ${t.location}
+        </div>
+        <p class="tc-desc">${t.desc}</p>
+        <button class="tc-btn" onclick="openModal('${t.id}')">${done?'✏️ Editar respuestas':'🎤 Entrevistar'}</button>
+      </div>`;
+    g.appendChild(c);
+  });
+  updateFieldUnlock();
+}
+function updateFieldUnlock(){
+  const n=Object.values(state.interviews).filter(iv=>iv&&Object.values(iv).some(v=>v&&v.trim())).length;
+  const btn=document.getElementById('toCompareBtn');
+  const bar=document.getElementById('fieldUnlock');
+  btn.disabled=n<2;
+  bar.style.display=n>0&&n<2?'flex':'none';
+  if(n===1) bar.querySelector('p').innerHTML='Completaste 1 entrevista. Necesitas <strong>1 más</strong> para desbloquear la comparación.';
+}
+
+// ── MODAL ──────────────────────────────────────────────────────────
+function openModal(id){
+  const t=TARGETS.find(x=>x.id===id); if(!t) return;
+  state.active=id;
+  document.getElementById('mAvatar').textContent=t.emoji;
+  document.getElementById('mAvatar').style.background=t.bg;
+  document.getElementById('mName').textContent=t.name;
+  document.getElementById('mRole').textContent=t.role;
+  document.getElementById('mLocation').textContent=t.location;
+  const saved=state.interviews[id]||{};
+  document.getElementById('mQuestions').innerHTML=t.questions.map((q,i)=>`
+    <div class="qb">
+      <div class="qb-l"><div class="qnum">${i+1}</div>Pregunta ${i+1}</div>
+      <div class="q-txt">"${q}"</div>
+      <textarea id="a_${id}_${i+1}" placeholder="Escribe lo que te respondió..." rows="3">${saved[`q${i+1}`]||''}</textarea>
+    </div>`).join('');
+  document.getElementById('iOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){ document.getElementById('iOverlay').classList.remove('open'); document.body.style.overflow=''; state.active=null; }
+function saveInterview(){
+  const id=state.active; if(!id) return;
+  const t=TARGETS.find(x=>x.id===id);
+  const d={};
+  t.questions.forEach((_,i)=>{ const el=document.getElementById(`a_${id}_${i+1}`); d[`q${i+1}`]=el?el.value.trim():''; });
+  state.interviews[id]=d; save(); closeModal(); renderTargets();
+  showToast(`✓ ${t.name} entrevistado/a`);
+}
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
+
+// ── COMPARE ───────────────────────────────────────────────────────
+function renderCompare(){
+  const c=document.getElementById('compareContent'); c.innerHTML='';
+  const cf=state.caseFile;
+  const doneTargets=TARGETS.filter(t=>state.interviews[t.id]);
+
+  // ---- BLOCK 1: Stakeholder hypothesis vs found ----
+  const hypLines=(cf.hypStakeholders||'').split('\n').filter(l=>l.trim());
+  const foundNames=doneTargets.map(t=>t.name);
+
+  let sh=`<div class="compare-block">
+    <div class="cb-header"><span class="av">👥</span><div><h4>Stakeholders identificados</h4><div class="rl">Hipótesis vs. campo</div></div></div>
+    <div class="cb-cols">
+      <div class="cb-col">
+        <div class="cb-col-title before"><div class="dot"></div>Tu hipótesis (antes de salir)</div>`;
+  if(hypLines.length===0){
+    sh+=`<div class="cmp-item"><div class="cmp-status st-empty">—</div><div class="cmp-text">(no registrado)</div></div>`;
+  } else {
+    hypLines.forEach(l=>{
+      const matched=doneTargets.some(t=>l.toLowerCase().includes(t.name.toLowerCase().split(' ')[0])||l.toLowerCase().includes(t.role.toLowerCase().split(' ')[0]));
+      sh+=`<div class="cmp-item">
+        <div class="cmp-status ${matched?'st-conf':'st-empty'}">${matched?'✓':'?'}</div>
+        <div class="cmp-text ${matched?'confirmed':''}">${l}</div>
+      </div>`;
+    });
+  }
+  sh+=`</div><div class="cb-col">
+    <div class="cb-col-title after"><div class="dot"></div>Lo que encontraste en campo</div>`;
+  if(doneTargets.length===0){
+    sh+=`<div class="cmp-item"><div class="cmp-status st-empty">—</div><div class="cmp-text">(ninguna entrevista registrada)</div></div>`;
+  } else {
+    doneTargets.forEach(t=>{
+      const wasHyp=hypLines.some(l=>l.toLowerCase().includes(t.name.toLowerCase().split(' ')[0])||l.toLowerCase().includes(t.role.toLowerCase().split(' ')[0]));
+      sh+=`<div class="cmp-item">
+        <div class="cmp-status ${wasHyp?'st-conf':'st-new'}">${wasHyp?'✓':'★'}</div>
+        <div class="cmp-text ${wasHyp?'confirmed':'new-disc'}">${t.emoji} ${t.name} — ${t.role} ${!wasHyp?'<em>(no estaba en tu hipótesis)</em>':''}</div>
+      </div>`;
+    });
+  }
+  sh+=`</div></div></div>`;
+  c.innerHTML+=sh;
+
+  // ---- BLOCK 2: Problems hypothesis vs field answers ----
+  const hypProbs=(cf.hypProblems||'').split('\n').filter(l=>l.trim());
+  let pb=`<div class="compare-block">
+    <div class="cb-header"><span class="av">🔍</span><div><h4>Problemas identificados</h4><div class="rl">Lo que imaginabas vs. lo que dijeron</div></div></div>
+    <div class="cb-cols">
+      <div class="cb-col">
+        <div class="cb-col-title before"><div class="dot"></div>Problemas que imaginabas</div>`;
+  if(hypProbs.length===0){
+    pb+=`<div class="cmp-item"><div class="cmp-status st-empty">—</div><div class="cmp-text">(no registrado)</div></div>`;
+  } else {
+    hypProbs.forEach(p=>{ pb+=`<div class="cmp-item"><div class="cmp-status st-part">?</div><div class="cmp-text">${p}</div></div>`; });
+  }
+  pb+=`</div><div class="cb-col"><div class="cb-col-title after"><div class="dot"></div>Problemas mencionados en campo</div>`;
+  const fieldProbs=[];
+  doneTargets.forEach(t=>{
+    const d=state.interviews[t.id]||{};
+    if(d.q1&&d.q1.trim()) fieldProbs.push({text:d.q1, who:t.name, emoji:t.emoji});
+  });
+  if(fieldProbs.length===0){
+    pb+=`<div class="cmp-item"><div class="cmp-status st-empty">—</div><div class="cmp-text">(sin respuestas registradas en P1)</div></div>`;
+  } else {
+    fieldProbs.forEach(fp=>{
+      pb+=`<div class="cmp-item">
+        <div class="cmp-status st-new">★</div>
+        <div class="cmp-text new-disc">"${fp.text.substring(0,120)}${fp.text.length>120?'...':''}" <em>— ${fp.emoji} ${fp.who}</em></div>
+      </div>`;
+    });
+  }
+  pb+=`</div></div></div>`;
+  c.innerHTML+=pb;
+
+  // ---- BLOCK 3: Requirements from email vs discovered ----
+  const fieldReqs=[];
+  doneTargets.forEach(t=>{
+    const d=state.interviews[t.id]||{};
+    t.questions.forEach((q,i)=>{
+      const ans=d[`q${i+1}`];
+      if(ans&&ans.trim()&&ans.length>15) fieldReqs.push({text:ans, who:t.name, q:q, emoji:t.emoji});
+    });
+  });
+
+  let rb=`<div class="compare-block">
+    <div class="cb-header"><span class="av">📋</span><div><h4>Requerimientos: correo vs. campo</h4><div class="rl">¿Qué confirmaste? ¿Qué es nuevo?</div></div></div>`;
+  if(fieldReqs.length===0){
+    rb+=`<div style="padding:1.1rem 1.35rem;font-size:.88rem;color:var(--text-d)">Completa las entrevistas para ver la comparación de requerimientos.</div>`;
+  } else {
+    rb+=`<div style="overflow-x:auto"><table class="req-compare-table"><thead><tr>
+      <th>#</th><th>Requerimiento del correo</th><th>¿Confirmado en campo?</th><th>Quién lo confirmó o amplió</th>
+    </tr></thead><tbody>`;
+    const emailReqs=['R01 — Publicar eventos con título, descripción, fecha y cupo','R02 — Aprendices pueden inscribirse a actividades','R03 — Docentes ven lista de inscritos','R04 — Interfaz mobile-first','R05 — Protección de datos (Ley 1581)','R06 — Rendimiento con baja conectividad','R07 — Autenticación institucional (implícito)','R08 — Gestión de cupos (implícito)'];
+    emailReqs.forEach((req,i)=>{
+      const confirmers=doneTargets.filter(t=>{
+        const d=state.interviews[t.id]||{};
+        return Object.values(d).some(v=>v&&v.length>5);
+      });
+      const confirmed=confirmers.length>0;
+      const sp=confirmed?'sp-confirmed':'sp-missing';
+      const sl=confirmed?'✓ Confirmado':'Sin dato aún';
+      rb+=`<tr>
+        <td style="color:var(--text-d);font-size:.78rem">${req.split('—')[0].trim()}</td>
+        <td style="font-size:.84rem;color:var(--text-d)">${req.split('—')[1]||req}</td>
+        <td><span class="status-pill ${sp}">${sl}</span></td>
+        <td style="font-size:.78rem;color:var(--text-d)">${confirmed?confirmers.slice(0,2).map(t=>t.emoji+' '+t.name.split(' ')[0]).join(', '):'—'}</td>
+      </tr>`;
+    });
+    if(cf.extraReqs&&cf.extraReqs.trim()){
+      rb+=`<tr>
+        <td style="color:var(--amber);font-size:.78rem">+Extra</td>
+        <td style="font-size:.84rem;color:var(--amber)">${cf.extraReqs}</td>
+        <td><span class="status-pill sp-new">★ Propio</span></td>
+        <td style="font-size:.78rem;color:var(--text-d)">Identificado por ti</td>
+      </tr>`;
+    }
+    fieldReqs.slice(0,4).forEach((fr,i)=>{
+      rb+=`<tr>
+        <td style="color:var(--purple);font-size:.78rem">N${i+1}</td>
+        <td style="font-size:.84rem;color:var(--purple)">"${fr.text.substring(0,90)}${fr.text.length>90?'...':''}"</td>
+        <td><span class="status-pill sp-new">★ Nuevo</span></td>
+        <td style="font-size:.78rem;color:var(--text-d)">${fr.emoji} ${fr.who}</td>
+      </tr>`;
+    });
+    rb+=`</tbody></table></div>`;
+  }
+  rb+=`</div>`;
+  c.innerHTML+=rb;
+
+  // ---- BLOCK 4: Surprise & key insight ----
+  const hypSurp=cf.hypSurprise||'';
+  const hypMost=cf.hypMostImportant||'';
+  const newStake=doneTargets.filter(t=>{
+    const hypL=(cf.hypStakeholders||'').toLowerCase();
+    return !hypL.includes(t.name.toLowerCase().split(' ')[0])&&!hypL.includes(t.role.toLowerCase().split(' ')[0]);
+  });
+
+  let ib=`<div class="insight-card">
+    <h3>💡 Reflexiones del análisis</h3>`;
+
+  if(hypSurp){
+    ib+=`<div class="ins-item"><div class="ins-icon">🤔</div><div><strong>Lo que esperabas que te sorprendiera:</strong><br>${hypSurp}</div></div>`;
+  }
+  if(newStake.length>0){
+    ib+=`<div class="ins-item"><div class="ins-icon">⭐</div><div><strong>Stakeholders no anticipados que encontraste:</strong><br>${newStake.map(t=>t.emoji+' '+t.name).join(' · ')}<br><span style="font-size:.8rem;color:var(--text-d)">Estos son los más valiosos — los que nadie había pensado.</span></div></div>`;
+  }
+  if(hypMost){
+    ib+=`<div class="ins-item"><div class="ins-icon">🎯</div><div><strong>Tu hipótesis sobre el requerimiento más importante:</strong><br>${hypMost}</div></div>`;
+  }
+  ib+=`<div class="ins-item"><div class="ins-icon">→</div><div>¿Cuántos requerimientos nuevos aparecieron en campo que NO estaban en el correo de Carlos? <strong>Esa brecha</strong> es la razón por la que los analistas salen al campo.</div></div>`;
+  ib+=`<div class="ins-item"><div class="ins-icon">→</div><div>¿Algún stakeholder mencionó una restricción legal o institucional? Si lo hizo, tienes un <strong>Requerimiento de Dominio</strong> que Carlos no pudo darte.</div></div>`;
+  ib+=`<div class="ins-item"><div class="ins-icon">→</div><div>¿Qué necesidades se repiten entre varios stakeholders? Eso es probablemente un <strong>Must Have</strong> en tu MoSCoW.</div></div>`;
+  ib+=`</div>`;
+  c.innerHTML+=ib;
+}
+
+// ── UTILS ─────────────────────────────────────────────────────────
+function showToast(msg){
+  const t=document.getElementById('toast'); t.textContent=msg;
+  t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2800);
+}
+function resetAll(){
+  if(!confirm('¿Borrar toda la misión y empezar de nuevo?')) return;
+  state={cur:0,interviews:{},active:null,caseFile:{extraReqs:'',hypStakeholders:'',hypPower:'',hypProblems:'',hypMostImportant:'',hypSurprise:''}};
+  save(); goTo(0);
+}
+
+// ── INIT ─────────────────────────────────────────────────────────
+function init(){
+  updateSteps();
+  // Restore case file fields
+  const cf=state.caseFile||{};
+  ['extraReqs','hypStakeholders','hypPower','hypProblems','hypMostImportant','hypSurprise'].forEach(id=>{
+    const el=document.getElementById(id); if(el&&cf[id]) el.value=cf[id];
+  });
+  document.querySelectorAll('.flip-card').forEach(c=>{
+    c.addEventListener('touchend',()=>c.classList.toggle('flipped'));
+  });
+  document.getElementById('iOverlay').addEventListener('click',e=>{
+    if(e.target===document.getElementById('iOverlay')) closeModal();
+  });
+  if(state.cur>0) goTo(state.cur);
+}
+init();
+</script>
+</body>
+</html>
