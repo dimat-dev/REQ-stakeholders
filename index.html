@@ -3,787 +3,912 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MISIÓN ESCUCHA — AppCampus · ADSO</title>
+<title>La Clínica de Entrevistas — AppCampus · Sesión 3</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Karla:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --ink:#080c14;--paper:#0d1220;--surface:#111827;
-  --border:#1a2438;--border2:#243050;
-  --green:#22c55e;--green-d:#15803d;--green-glow:rgba(34,197,94,.13);
-  --amber:#f59e0b;--amber-glow:rgba(245,158,11,.11);
-  --blue:#3b82f6;--blue-glow:rgba(59,130,246,.11);
-  --red:#ef4444;--red-glow:rgba(239,68,68,.09);
-  --purple:#a78bfa;--purple-glow:rgba(167,139,250,.1);
-  --muted:#374151;--text:#e2e8f0;--text-d:#94a3b8;--text-b:#f9fafb;
-  --font-h:'Syne',sans-serif;--font-b:'Karla',sans-serif;
-  --r:10px;--r2:14px;--ease:.28s cubic-bezier(.4,0,.2,1);
+  --bg:#f0f4f8; --surface:#ffffff; --surface2:#f8fafc;
+  --border:#e2e8f0; --border2:#cbd5e1;
+  --ink:#0f172a; --text:#334155; --muted:#64748b; --faint:#94a3b8;
+  --green:#16a34a; --green-l:#dcfce7; --green-d:#14532d;
+  --red:#dc2626; --red-l:#fee2e2;
+  --amber:#d97706; --amber-l:#fef3c7;
+  --blue:#1d4ed8; --blue-l:#dbeafe;
+  --purple:#7c3aed; --purple-l:#ede9fe;
+  --cyan:#0891b2; --cyan-l:#cffafe;
+  --teal:#0d9488; --teal-l:#ccfbf1;
+  --orange:#ea580c; --orange-l:#ffedd5;
+  --font-h:'Syne',sans-serif; --font-b:'Karla',sans-serif;
+  --r:8px; --r2:12px; --ease:.22s ease;
 }
 html{scroll-behavior:smooth}
-body{background:var(--ink);color:var(--text);font-family:var(--font-b);font-size:16px;line-height:1.65;min-height:100vh;overflow-x:hidden}
-body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.032'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
-.topbar{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.65rem 1.5rem;background:rgba(8,12,20,.94);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
-.brand{font-family:var(--font-h);font-weight:800;font-size:.92rem;letter-spacing:.1em;text-transform:uppercase;color:var(--green)}
-.brand span{color:var(--text-d)}
-.steps-track{display:flex;align-items:center;gap:.3rem}
-.step-pip{height:4px;border-radius:2px;transition:var(--ease);background:var(--border2)}
-.step-pip.w-sm{width:18px}.step-pip.w-md{width:28px}
-.step-pip.done{background:var(--green)}.step-pip.active{background:var(--amber);box-shadow:0 0 6px var(--amber)}
-/* HERO */
-.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:6rem 2rem 4rem;overflow:hidden}
-.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(34,197,94,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.03) 1px,transparent 1px);background-size:44px 44px}
-.hero-scan{position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--green),transparent);animation:scan 5s ease-in-out infinite;opacity:.4}
-@keyframes scan{0%{top:0;opacity:0}10%{opacity:.4}90%{opacity:.4}100%{top:100%;opacity:0}}
-.badge{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--font-h);font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--green);border:1px solid var(--green-d);padding:.25rem .85rem;border-radius:2px;margin-bottom:1.5rem;position:relative;z-index:1}
-.hero-h{font-family:var(--font-h);font-weight:800;font-size:clamp(2.8rem,7.5vw,5.5rem);line-height:.92;letter-spacing:-.025em;color:var(--text-b);position:relative;z-index:1;margin-bottom:.4rem}
-.hero-h em{color:var(--green);font-style:normal;display:block}
-.hero-sub{font-size:1.05rem;color:var(--text-d);max-width:460px;position:relative;z-index:1;margin-bottom:2.5rem}
-.hero-flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:.6rem;position:relative;z-index:1;margin-bottom:2.5rem;max-width:780px;width:100%}
-.flow-chip{background:var(--surface);border:1px solid var(--border2);border-radius:var(--r);padding:.75rem .9rem;display:flex;align-items:center;gap:.6rem}
-.flow-chip .fc-n{font-family:var(--font-h);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--green);margin-bottom:.08rem}
-.flow-chip .fc-t{font-family:var(--font-h);font-weight:700;font-size:.82rem;color:var(--text-b)}
-.flow-chip .fc-s{font-size:.68rem;color:var(--text-d)}
-.flow-icon{font-size:1.3rem;flex-shrink:0}
-.cta{font-family:var(--font-h);font-weight:700;font-size:.88rem;letter-spacing:.07em;text-transform:uppercase;background:var(--green);color:#000;border:none;padding:.9rem 2.2rem;border-radius:var(--r);cursor:pointer;position:relative;z-index:1;transition:var(--ease);display:inline-flex;align-items:center;gap:.55rem}
-.cta:hover{background:#16a34a;transform:translateY(-1px);box-shadow:0 8px 24px rgba(34,197,94,.28)}
-.hero-wm{position:absolute;bottom:1.5rem;right:1.5rem;font-family:var(--font-h);font-size:5rem;font-weight:800;color:rgba(255,255,255,.025);pointer-events:none}
-/* SECTION */
-.section{display:none;max-width:880px;margin:0 auto;padding:3rem 1.5rem 7rem}
-.section.active{display:block;animation:fadeUp .42s ease forwards}
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-.sec-label{font-family:var(--font-h);font-size:.63rem;letter-spacing:.2em;text-transform:uppercase;color:var(--green);margin-bottom:.35rem}
-.sec-title{font-family:var(--font-h);font-weight:800;font-size:2rem;line-height:1.1;color:var(--text-b);margin-bottom:.6rem}
-.sec-desc{font-size:.95rem;color:var(--text-d);max-width:580px;margin-bottom:2.25rem;border-left:3px solid var(--green);padding-left:1rem}
-/* CARDS */
-.card{background:var(--surface);border:1px solid var(--border2);border-radius:var(--r2);padding:1.6rem;margin-bottom:1.15rem;position:relative;overflow:hidden}
-.card-accent::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--green)}
-.card h3{font-family:var(--font-h);font-weight:700;font-size:1.02rem;color:var(--text-b);margin-bottom:.6rem;display:flex;align-items:center;gap:.5rem}
-.card h3 .ic{width:28px;height:28px;border-radius:7px;background:var(--green-glow);border:1px solid var(--green-d);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
-.card p{color:var(--text-d);font-size:.91rem;line-height:1.72;margin-bottom:.65rem}
-.card p:last-child{margin-bottom:0}
-.card strong{color:var(--text)}.card em{color:var(--green);font-style:italic}
-.callout{background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.22);border-radius:var(--r);padding:1rem 1.25rem;margin:1rem 0}
-.callout-l{font-family:var(--font-h);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:.28rem}
-.callout p{color:var(--text);font-size:.88rem;margin:0}
-.warn{background:var(--amber-glow);border:1px solid rgba(245,158,11,.22);border-radius:var(--r);padding:.9rem 1.1rem;margin:.9rem 0}
-.warn p{color:#fcd34d;font-size:.86rem;margin:0}
-/* FLIP CARDS */
-.flip-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:.8rem;margin:1.15rem 0}
-.flip-card{height:165px;cursor:pointer;perspective:600px}
-.fci{width:100%;height:100%;transition:transform .5s cubic-bezier(.4,0,.2,1);transform-style:preserve-3d;position:relative}
-.flip-card:hover .fci,.flip-card.flipped .fci{transform:rotateY(180deg)}
-.ff,.fb{position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--r);padding:1rem;display:flex;flex-direction:column;justify-content:center}
-.ff{background:var(--surface);border:1px solid var(--border2);align-items:center;text-align:center}
-.ff .big{font-size:2rem;margin-bottom:.35rem}.ff h4{font-family:var(--font-h);font-weight:700;font-size:.85rem;color:var(--text-b)}.ff small{font-size:.68rem;color:var(--text-d);margin-top:.12rem}
-.fb{background:var(--green);transform:rotateY(180deg)}.fb p{font-size:.82rem;color:#000;line-height:1.5;font-weight:600}
-.flip-hint{font-size:.68rem;color:var(--text-d);text-align:center;margin-top:.35rem;font-style:italic}
-/* MATRIX */
-.mx{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:2px;background:var(--border);border-radius:var(--r);overflow:hidden;margin:1.1rem 0}
-.mx-c{background:var(--surface);padding:1rem}
-.mx-c h4{font-family:var(--font-h);font-weight:700;font-size:.8rem;margin-bottom:.28rem}.mx-c p{font-size:.76rem;color:var(--text-d);line-height:1.44}
-.mx-c .tag{display:inline-block;font-size:.63rem;letter-spacing:.04em;text-transform:uppercase;font-family:var(--font-h);padding:.15rem .5rem;border-radius:3px;margin-bottom:.35rem}
-.tc1 .tag{background:rgba(239,68,68,.14);color:#ef4444}.tc2 .tag{background:rgba(34,197,94,.14);color:#22c55e}
-.tc3 .tag{background:rgba(59,130,246,.14);color:#3b82f6}.tc4 .tag{background:rgba(148,163,184,.1);color:#94a3b8}
-/* EMAIL */
-.email-box{background:var(--ink);border:1px solid var(--border2);border-radius:var(--r);overflow:hidden;margin-bottom:1.1rem}
-.email-bar{background:var(--surface);padding:.6rem 1rem;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:.12rem}
-.email-bar span{font-size:.76rem;color:var(--text-d)}.email-bar span b{color:var(--text)}
-.email-body{padding:1rem 1.1rem;font-size:.87rem;color:var(--text-d);line-height:1.72}
-.email-body p{margin-bottom:.6rem}.email-body p:last-child{margin:0}
-/* FORMS */
-textarea,input[type=text],select{width:100%;background:var(--ink);border:1px solid var(--border2);border-radius:var(--r);color:var(--text);font-family:var(--font-b);font-size:.87rem;padding:.68rem .9rem;resize:vertical;min-height:68px;transition:var(--ease)}
-input[type=text],select{min-height:auto;resize:none}
-textarea:focus,input[type=text]:focus,select:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px var(--green-glow)}
-textarea::placeholder,input::placeholder{color:var(--muted)}
-.field-lbl{font-family:var(--font-h);font-size:.63rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-d);margin-bottom:.28rem}
-/* REQ ROWS */
-.req-row{background:var(--surface);border:1px solid var(--border2);border-radius:var(--r);padding:1.1rem;margin-bottom:.7rem;position:relative}
-.req-row-head{display:flex;align-items:center;gap:.7rem;margin-bottom:.7rem}
-.req-row-num{width:24px;height:24px;border-radius:5px;background:var(--green-glow);border:1px solid var(--green-d);color:var(--green);font-family:var(--font-h);font-weight:800;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.req-row-del{margin-left:auto;background:none;border:none;color:var(--muted);cursor:pointer;font-size:1rem;padding:.22rem .4rem;border-radius:5px;transition:var(--ease);line-height:1}
-.req-row-del:hover{color:var(--red);background:var(--red-glow)}
-.rtype-sel{display:flex;gap:.3rem;flex-wrap:wrap}
-.rtype-btn{padding:.28rem .75rem;border-radius:5px;border:1px solid var(--border2);background:none;color:var(--text-d);font-family:var(--font-h);font-size:.7rem;letter-spacing:.04em;text-transform:uppercase;font-weight:700;cursor:pointer;transition:var(--ease);white-space:nowrap}
-.rtype-btn:hover{border-color:var(--green);color:var(--green)}
-.rtype-btn.sel-rf{border-color:var(--green);background:rgba(34,197,94,.14);color:var(--green)}
-.rtype-btn.sel-rnf{border-color:#60a5fa;background:rgba(59,130,246,.14);color:#60a5fa}
-.rtype-btn.sel-rd{border-color:var(--purple);background:rgba(167,139,250,.14);color:var(--purple)}
-/* FORMAT REMINDER */
-.format-reminder{background:rgba(34,197,94,.05);border:1px solid rgba(34,197,94,.2);border-radius:var(--r2);padding:1.25rem 1.5rem;margin-bottom:1.5rem}
-.format-reminder h4{font-family:var(--font-h);font-weight:700;font-size:.9rem;color:var(--text-b);margin-bottom:.85rem}
-.fmt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.65rem;margin-bottom:.8rem}
-.fmt-card{background:var(--ink);border:1px solid var(--border2);border-radius:var(--r);padding:.85rem}
-.fmt-card .fc-label{font-family:var(--font-h);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--green);margin-bottom:.28rem}
-/* TARGETS */
-.targets-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:1rem;margin-top:1.35rem}
-.tc{background:var(--surface);border:1px solid var(--border2);border-radius:var(--r2);overflow:hidden;transition:var(--ease);position:relative}
-.tc:hover{border-color:var(--green);transform:translateY(-2px);box-shadow:0 8px 24px rgba(34,197,94,.1)}
-.tc.done-int{border-color:var(--blue);opacity:.75}
-.tc.done-int::after{content:'✓ Entrevistado';position:absolute;top:.65rem;right:.65rem;font-size:.66rem;font-family:var(--font-h);color:var(--blue);background:var(--blue-glow);border:1px solid rgba(59,130,246,.22);padding:.16rem .5rem;border-radius:4px}
-.tc-h{padding:1rem 1rem .6rem;display:flex;align-items:flex-start;gap:.65rem}
-.tc-av{width:44px;height:44px;border-radius:9px;font-size:1.3rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.tc-i h4{font-family:var(--font-h);font-weight:700;font-size:.9rem;color:var(--text-b);margin-bottom:.08rem}
-.tc-role{font-size:.7rem;color:var(--green);font-weight:600;letter-spacing:.04em}
-.tc-b{padding:0 1rem 1rem}
-.tc-loc{display:flex;align-items:flex-start;gap:.32rem;font-size:.76rem;color:var(--text-d);margin-bottom:.5rem}
-.tc-loc svg{width:10px;height:10px;stroke:var(--amber);flex-shrink:0;margin-top:.22rem}
-.tc-desc{font-size:.78rem;color:var(--text-d);line-height:1.48;margin-bottom:.65rem}
-.tc-btn{width:100%;font-family:var(--font-h);font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:var(--green-glow);border:1px solid var(--green-d);color:var(--green);padding:.55rem;border-radius:7px;cursor:pointer;transition:var(--ease)}
-.tc-btn:hover{background:var(--green);color:#000}
-/* TABLES */
-.type-rf{display:inline-block;background:rgba(34,197,94,.14);color:var(--green);font-family:var(--font-h);font-size:.63rem;letter-spacing:.05em;padding:.16rem .48rem;border-radius:3px;font-weight:700}
-.type-rnf{background:rgba(59,130,246,.14);color:#60a5fa}
-.type-rd{background:rgba(167,139,250,.14);color:var(--purple)}
-.req-table{width:100%;border-collapse:collapse;font-size:.83rem}
-.req-table th{background:var(--surface);color:var(--text-d);font-family:var(--font-h);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;padding:.5rem .85rem;border-bottom:1px solid var(--border2);text-align:left}
-.req-table td{padding:.58rem .85rem;border-bottom:1px solid var(--border);vertical-align:top}
-.req-table tr:last-child td{border-bottom:none}
-.req-table tr:hover td{background:rgba(255,255,255,.018)}
-/* REVEAL */
-.reveal-zone{background:rgba(34,197,94,.04);border:2px dashed rgba(34,197,94,.25);border-radius:var(--r2);padding:2.5rem;text-align:center;margin:2rem 0}
-.reveal-zone h4{font-family:var(--font-h);font-weight:700;font-size:1rem;color:var(--text-b);margin-bottom:.5rem}
-.reveal-zone p{font-size:.88rem;color:var(--text-d);margin-bottom:1.35rem}
-.reveal-btn{font-family:var(--font-h);font-weight:700;font-size:.88rem;letter-spacing:.07em;text-transform:uppercase;background:var(--amber);color:#000;border:none;padding:.85rem 2rem;border-radius:var(--r);cursor:pointer;transition:var(--ease);display:inline-flex;align-items:center;gap:.5rem}
-.reveal-btn:hover{background:#d97706;transform:translateY(-1px)}
-/* STATS */
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:.7rem;margin-bottom:1.25rem}
-.stat-box{background:var(--ink);border:1px solid var(--border2);border-radius:var(--r);padding:.85rem;text-align:center}
-.stat-num{font-family:var(--font-h);font-size:2.1rem;font-weight:800;line-height:1}
-.stat-lbl{font-size:.7rem;color:var(--text-d);margin-top:.18rem}
-.ins-item{display:flex;gap:.6rem;align-items:flex-start;margin-bottom:.6rem;font-size:.87rem;color:var(--text-d);padding:.55rem .8rem;background:rgba(255,255,255,.022);border-radius:7px}
-.ins-item:last-child{margin-bottom:0}
-.ins-icon{font-size:1.05rem;flex-shrink:0;margin-top:.05rem}
-.ins-item strong{color:var(--text)}
-/* MODAL */
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(6px);z-index:200;overflow-y:auto;padding:2rem 1rem;align-items:flex-start;justify-content:center}
-.overlay.open{display:flex}
-.modal{background:var(--surface);border:1px solid var(--border2);border-radius:16px;max-width:640px;width:100%;overflow:hidden;animation:slideIn .3s ease}
-@keyframes slideIn{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:translateY(0)}}
-.modal-h{padding:1.25rem 1.4rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.85rem}
-.modal-av{width:50px;height:50px;border-radius:11px;font-size:1.45rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.modal-t h3{font-family:var(--font-h);font-weight:800;font-size:1.05rem;color:var(--text-b);margin-bottom:.08rem}
-.modal-t p{font-size:.78rem;color:var(--text-d)}
-.modal-x{margin-left:auto;background:none;border:none;color:var(--text-d);cursor:pointer;font-size:1.2rem;padding:.32rem;border-radius:6px;transition:var(--ease);line-height:1}
-.modal-x:hover{color:var(--text);background:var(--border2)}
-.modal-b{padding:1.4rem}
-.mint{background:var(--amber-glow);border:1px solid rgba(245,158,11,.2);border-radius:7px;padding:.85rem 1.05rem;margin-bottom:1.35rem}
-.mint p{font-size:.83rem;color:#fcd34d;margin:0}
-.qb{margin-bottom:1.3rem}
-.qb-l{font-family:var(--font-h);font-weight:700;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--green);margin-bottom:.3rem;display:flex;align-items:center;gap:.32rem}
-.qnum{width:17px;height:17px;border-radius:50%;background:var(--green);color:#000;font-size:.62rem;font-weight:800;display:flex;align-items:center;justify-content:center}
-.q-txt{font-size:.88rem;color:var(--text);margin-bottom:.45rem;font-style:italic}
-.modal-f{padding:1rem 1.4rem;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:.7rem}
-.btn-save{font-family:var(--font-h);font-weight:700;font-size:.8rem;letter-spacing:.07em;text-transform:uppercase;background:var(--green);color:#000;border:none;padding:.68rem 1.5rem;border-radius:8px;cursor:pointer;transition:var(--ease)}
-.btn-save:hover{background:#16a34a}
-.btn-cancel{background:none;border:1px solid var(--border2);color:var(--text-d);font-family:var(--font-b);font-size:.83rem;padding:.68rem 1.1rem;border-radius:8px;cursor:pointer;transition:var(--ease)}
-.btn-cancel:hover{border-color:var(--text-d);color:var(--text)}
-/* NAV */
-.step-nav{display:flex;justify-content:space-between;align-items:center;padding-top:2.25rem;border-top:1px solid var(--border);margin-top:2.75rem}
-.snav-btn{font-family:var(--font-h);font-weight:700;font-size:.78rem;letter-spacing:.07em;text-transform:uppercase;padding:.7rem 1.5rem;border-radius:8px;border:1px solid var(--border2);background:none;color:var(--text-d);cursor:pointer;transition:var(--ease);display:flex;align-items:center;gap:.42rem}
-.snav-btn:hover:not(:disabled){border-color:var(--green);color:var(--green)}
-.snav-btn:disabled{opacity:.28;cursor:not-allowed}
-.snav-btn.primary{background:var(--green);color:#000;border-color:var(--green)}
-.snav-btn.primary:hover:not(:disabled){background:#16a34a}
-.snav-info{text-align:center;font-size:.76rem;color:var(--muted)}
-.unlock-bar{display:flex;align-items:center;gap:.65rem;background:var(--amber-glow);border:1px solid rgba(245,158,11,.18);border-radius:8px;padding:.85rem 1.05rem;margin-top:1.1rem}
-.unlock-bar p{font-size:.83rem;color:#fcd34d;margin:0}
-/* READ BAR */
-.rbar-wrap{background:var(--border);border-radius:3px;height:3px;margin-top:1.2rem;overflow:hidden}
-.rbar{height:100%;background:var(--green);width:0%;transition:width .35s ease;border-radius:3px}
-.rlabel{font-size:.7rem;color:var(--text-d);margin-top:.32rem;text-align:right}
-/* ADD ROW */
-.add-row-btn{display:flex;align-items:center;justify-content:center;gap:.45rem;background:none;border:1px dashed var(--border2);color:var(--text-d);font-family:var(--font-h);font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;padding:.6rem 1.1rem;border-radius:var(--r);cursor:pointer;transition:var(--ease);margin-top:.4rem;width:100%}
-.add-row-btn:hover{border-color:var(--green);color:var(--green)}
-/* DIVIDER */
-.div-line{height:1px;background:var(--border);margin:1.75rem 0;position:relative}
-.div-line::after{content:attr(data-l);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--paper);padding:0 .85rem;font-family:var(--font-h);font-size:.62rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
-/* TOAST */
-#toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:#15803d;color:#fff;font-family:var(--font-h);font-size:.83rem;font-weight:700;padding:.68rem 1.55rem;border-radius:10px;opacity:0;transition:all .3s;z-index:500;pointer-events:none;white-space:nowrap;box-shadow:0 8px 28px rgba(0,0,0,.5)}
+body{background:var(--bg);color:var(--text);font-family:var(--font-b);font-size:16px;line-height:1.65;min-height:100vh}
+
+/* ── TOP BAR ── */
+.topbar{background:var(--ink);color:#fff;padding:.6rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.brand{font-family:var(--font-h);font-weight:800;font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;color:#22d3ee}
+.brand span{color:#64748b}
+.phase-track{display:flex;gap:.4rem;align-items:center}
+.pt-dot{width:28px;height:6px;border-radius:3px;background:#1e293b;transition:var(--ease)}
+.pt-dot.done{background:#22d3ee}
+.pt-dot.active{background:#f59e0b}
+
+/* ── HERO ── */
+.hero{background:var(--ink);color:#fff;padding:4rem 2rem 3rem;position:relative;overflow:hidden}
+.hero{
+  background:var(--ink);
+  color:#fff;
+  padding:4rem 2rem 3rem;
+  position:relative;
+  overflow:hidden;
+}
+
+.hero::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:radial-gradient(
+    ellipse at 70% 50%,
+    rgba(34,211,238,.08) 0%,
+    transparent 60%
+  );
+  pointer-events:none;
+}
+
+.hero > *{
+  position:relative;
+  z-index:2;
+}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%, rgba(34,211,238,.08) 0%, transparent 60%)}
+.hero-label{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--font-h);font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:#22d3ee;border:1px solid #164e63;padding:.25rem .8rem;border-radius:2px;margin-bottom:1.25rem}
+.hero h1{font-family:var(--font-h);font-weight:800;font-size:clamp(2.2rem,6vw,4rem);line-height:.95;letter-spacing:-.02em;color:#f8fafc;margin-bottom:.4rem}
+.hero h1 em{color:#22d3ee;font-style:normal;display:block}
+.hero-sub{font-size:1rem;color:#94a3b8;max-width:520px;margin-bottom:2.5rem}
+.hero-how{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.6rem;max-width:760px;margin-bottom:2.5rem}
+.how-chip{background:#1e293b;border:1px solid #334155;border-radius:var(--r);padding:.75rem;display:flex;align-items:center;gap:.6rem}
+.how-chip .hc-n{font-family:var(--font-h);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:#22d3ee}
+.how-chip .hc-t{font-family:var(--font-h);font-weight:700;font-size:.82rem;color:#f1f5f9}
+.how-chip .hc-s{font-size:.68rem;color:#475569}
+.how-icon{font-size:1.3rem;flex-shrink:0}
+.start-btn{font-family:var(--font-h);font-weight:700;font-size:.85rem;letter-spacing:.07em;text-transform:uppercase;background:#22d3ee;color:#0f172a;border:none;padding:.85rem 2rem;border-radius:var(--r);cursor:pointer;transition:var(--ease);display:inline-flex;align-items:center;gap:.5rem}
+.start-btn:hover{background:#06b6d4;transform:translateY(-1px)}
+
+/* ── SECTIONS ── */
+.section{display:none;max-width:900px;margin:0 auto;padding:2.5rem 1.5rem 6rem}
+.section.active{display:block;animation:fadeUp .35s ease forwards}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.sec-label{font-family:var(--font-h);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);margin-bottom:.3rem}
+.sec-title{font-family:var(--font-h);font-weight:800;font-size:1.9rem;line-height:1.1;color:var(--ink);margin-bottom:.55rem}
+.sec-desc{font-size:.95rem;color:var(--muted);max-width:560px;margin-bottom:2rem;border-left:3px solid var(--cyan);padding-left:.85rem}
+
+/* ── CARDS ── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:1.5rem;margin-bottom:1rem}
+.card-title{font-family:var(--font-h);font-weight:700;font-size:1rem;color:var(--ink);margin-bottom:.5rem}
+.info-box{background:var(--blue-l);border:1px solid #93c5fd;border-radius:var(--r);padding:.9rem 1.1rem;margin-bottom:1rem}
+.info-box p{font-size:.87rem;color:#1e3a8a;margin:0}
+.warn-box{background:var(--amber-l);border:1px solid #fcd34d;border-radius:var(--r);padding:.9rem 1.1rem;margin-bottom:1rem}
+.warn-box p{font-size:.87rem;color:#78350f;margin:0}
+
+/* ── TRANSCRIPT ── */
+.transcript{background:#f8fafc;border:1px solid var(--border2);border-radius:var(--r2);overflow:hidden;margin-bottom:1.25rem}
+.transcript-header{background:var(--ink);padding:.65rem 1rem;display:flex;align-items:center;gap:.75rem}
+.transcript-header span{font-family:var(--font-h);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:#94a3b8}
+.transcript-header strong{color:#22d3ee;font-family:var(--font-h)}
+.t-line{display:grid;grid-template-columns:90px 1fr auto;gap:.75rem;align-items:start;padding:.7rem 1rem;border-bottom:1px solid var(--border);transition:var(--ease);cursor:default}
+.t-line:last-child{border-bottom:none}
+.t-line:hover{background:#f1f5f9}
+.t-line.marked-error{background:#fef2f2}
+.t-speaker{font-family:var(--font-h);font-size:.72rem;font-weight:700;letter-spacing:.04em;color:var(--muted);padding-top:.1rem;white-space:nowrap}
+.t-speaker.ana{color:var(--red)}
+.t-speaker.cli{color:var(--blue)}
+.t-text{font-size:.9rem;line-height:1.55}
+.t-action{display:flex;gap:.35rem;flex-wrap:wrap;justify-content:flex-end;min-width:140px}
+
+/* ── ERROR TAGS ── */
+.err-btn{padding:.22rem .6rem;border-radius:4px;border:none;font-family:var(--font-h);font-size:.65rem;letter-spacing:.04em;font-weight:700;cursor:pointer;transition:var(--ease);white-space:nowrap}
+.err-btn:hover{opacity:.8}
+.err-btn.active-err{transform:scale(1.05);box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.err-DOBLE{background:#fee2e2;color:#991b1b}
+.err-TECNICA{background:#fde68a;color:#78350f}
+.err-INDUCTIVA{background:#ede9fe;color:#5b21b6}
+.err-CERRADA{background:#dbeafe;color:#1e40af}
+.err-SOLUCION{background:#fce7f3;color:#9d174d}
+.err-SILENCIO{background:#d1fae5;color:#065f46}
+.err-SIN_NOTAS{background:#e0e7ff;color:#3730a3}
+.clear-err-btn{background:none;border:1px solid var(--border2);color:var(--muted);font-size:.65rem;padding:.22rem .5rem;border-radius:4px;cursor:pointer;font-family:var(--font-h)}
+.clear-err-btn:hover{border-color:var(--red);color:var(--red)}
+
+/* ── ERROR LEGEND ── */
+.error-legend{display:flex;flex-wrap:wrap;gap:.45rem;margin-bottom:1.25rem}
+.leg-chip{padding:.28rem .75rem;border-radius:5px;font-family:var(--font-h);font-size:.7rem;font-weight:700;letter-spacing:.04em;cursor:pointer;transition:var(--ease);border:2px solid transparent}
+.leg-chip:hover{transform:translateY(-1px)}
+.leg-chip.leg-sel{border-color:currentColor;box-shadow:0 0 0 3px rgba(0,0,0,.08)}
+
+/* ── REWRITE ── */
+.rw-block{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:1.35rem;margin-bottom:1rem;position:relative}
+.rw-original{background:var(--red-l);border:1px solid #fca5a5;border-radius:var(--r);padding:.75rem 1rem;margin-bottom:.75rem;font-size:.88rem;color:#7f1d1d;font-style:italic}
+.rw-label{font-family:var(--font-h);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin-bottom:.3rem}
+.rw-type-sel{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.65rem}
+.rw-type-btn{padding:.25rem .75rem;border-radius:5px;border:1px solid var(--border2);background:none;color:var(--muted);font-family:var(--font-h);font-size:.68rem;letter-spacing:.04em;text-transform:uppercase;font-weight:700;cursor:pointer;transition:var(--ease)}
+.rw-type-btn:hover{border-color:var(--green);color:var(--green)}
+.rw-type-btn.sel{border-color:var(--green);background:var(--green-l);color:var(--green-d)}
+.rw-good-label{font-family:var(--font-h);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:.3rem}
+textarea{width:100%;background:#f8fafc;border:1px solid var(--border2);border-radius:var(--r);color:var(--ink);font-family:var(--font-b);font-size:.88rem;padding:.65rem .85rem;resize:vertical;min-height:64px;transition:var(--ease)}
+textarea:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(8,145,178,.12)}
+textarea::placeholder{color:var(--faint)}
+
+/* ── PROTOCOL BUILDER ── */
+.proto-phase{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;margin-bottom:.85rem}
+.proto-phase-head{display:flex;align-items:center;gap:.8rem;padding:.85rem 1.1rem;border-bottom:1px solid var(--border)}
+.phase-num{width:30px;height:30px;border-radius:7px;font-family:var(--font-h);font-weight:800;font-size:.85rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.phase-name{font-family:var(--font-h);font-weight:700;font-size:.95rem;color:var(--ink)}
+.phase-time{margin-left:auto;font-size:.75rem;color:var(--muted);font-style:italic}
+.proto-phase-body{padding:1rem 1.1rem}
+.proto-tips{background:var(--surface2);border-radius:var(--r);padding:.65rem .9rem;margin-bottom:.65rem;font-size:.82rem;color:var(--muted)}
+.proto-tips strong{color:var(--ink)}
+.proto-q-label{font-family:var(--font-h);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem;margin-top:.65rem}
+.q-type-hint{font-size:.75rem;color:var(--cyan);font-style:italic;margin-bottom:.35rem}
+
+/* ── COMPARE TABLE ── */
+.compare-wrap{overflow-x:auto}
+.compare-table{width:100%;border-collapse:collapse;font-size:.84rem}
+.compare-table th{background:var(--ink);color:#94a3b8;font-family:var(--font-h);font-size:.63rem;letter-spacing:.1em;text-transform:uppercase;padding:.55rem .9rem;text-align:left}
+.compare-table td{padding:.65rem .9rem;border-bottom:1px solid var(--border);vertical-align:top}
+.compare-table tr:last-child td{border-bottom:none}
+.compare-table tr:hover td{background:#f8fafc}
+.ok-mark{color:var(--green);font-weight:700;font-size:1rem}
+.miss-mark{color:var(--faint)}
+.q-pill{display:inline-block;font-family:var(--font-h);font-size:.63rem;letter-spacing:.04em;padding:.15rem .5rem;border-radius:4px;font-weight:700}
+.qp-A{background:#dcfce7;color:#14532d}
+.qp-C{background:#dbeafe;color:#1e3a8a}
+.qp-S{background:#ede9fe;color:#4c1d95}
+.qp-R{background:#ffedd5;color:#7c2d12}
+.qp-H{background:#cffafe;color:#164e63}
+.qp-P{background:#ccfbf1;color:#134e4a}
+
+/* ── REVEAL ── */
+.reveal-zone{background:linear-gradient(135deg,#f0fdf4,#ecfdf5);border:2px dashed #86efac;border-radius:var(--r2);padding:2.5rem;text-align:center;margin:2rem 0}
+.reveal-zone h4{font-family:var(--font-h);font-weight:700;font-size:1rem;color:var(--ink);margin-bottom:.45rem}
+.reveal-zone p{font-size:.87rem;color:var(--muted);margin-bottom:1.25rem}
+.reveal-btn{font-family:var(--font-h);font-weight:700;font-size:.85rem;letter-spacing:.07em;text-transform:uppercase;background:var(--green);color:#fff;border:none;padding:.8rem 1.75rem;border-radius:var(--r);cursor:pointer;transition:var(--ease);display:inline-flex;align-items:center;gap:.5rem}
+.reveal-btn:hover{background:#15803d;transform:translateY(-1px)}
+
+/* ── NAV ── */
+.step-nav{display:flex;justify-content:space-between;align-items:center;padding-top:2rem;border-top:1px solid var(--border);margin-top:2.75rem}
+.snav-btn{font-family:var(--font-h);font-weight:700;font-size:.76rem;letter-spacing:.07em;text-transform:uppercase;padding:.65rem 1.4rem;border-radius:var(--r);border:1px solid var(--border2);background:none;color:var(--muted);cursor:pointer;transition:var(--ease);display:flex;align-items:center;gap:.4rem}
+.snav-btn:hover:not(:disabled){border-color:var(--cyan);color:var(--cyan)}
+.snav-btn:disabled{opacity:.3;cursor:not-allowed}
+.snav-btn.primary{background:var(--ink);color:#fff;border-color:var(--ink)}
+.snav-btn.primary:hover:not(:disabled){background:#1e293b}
+.snav-info{font-size:.75rem;color:var(--faint);text-align:center}
+
+/* ── FEEDBACK BADGE ── */
+.feedback{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--font-h);font-size:.7rem;font-weight:700;padding:.22rem .65rem;border-radius:4px;margin-top:.45rem}
+.fb-good{background:var(--green-l);color:var(--green-d)}
+.fb-miss{background:var(--red-l);color:var(--red)}
+
+/* ── SUMMARY STATS ── */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.7rem;margin-bottom:1.5rem}
+.stat-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:.9rem;text-align:center}
+.stat-num{font-family:var(--font-h);font-weight:800;font-size:2rem;line-height:1}
+.stat-lbl{font-size:.7rem;color:var(--muted);margin-top:.15rem}
+.insight{display:flex;gap:.6rem;align-items:flex-start;padding:.55rem .8rem;background:#f8fafc;border-radius:var(--r);margin-bottom:.5rem;font-size:.87rem;color:var(--text)}
+.insight-icon{font-size:1rem;flex-shrink:0;margin-top:.05rem}
+.insight strong{color:var(--ink)}
+
+/* ── DIVIDER ── */
+.divider{height:1px;background:var(--border);margin:2rem 0;position:relative}
+.divider::after{content:attr(data-l);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--bg);padding:0 .8rem;font-family:var(--font-h);font-size:.62rem;color:var(--faint);letter-spacing:.12em;text-transform:uppercase}
+
+/* ── TOAST ── */
+#toast{position:fixed;bottom:1.75rem;left:50%;transform:translateX(-50%) translateY(16px);background:var(--ink);color:#fff;font-family:var(--font-h);font-size:.82rem;font-weight:700;padding:.62rem 1.45rem;border-radius:8px;opacity:0;transition:all .28s;z-index:500;pointer-events:none;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.25)}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-@media(max-width:580px){.hero{padding:4.5rem 1.25rem 3rem}.targets-grid{grid-template-columns:1fr}.step-nav{flex-direction:column;gap:.7rem}.fmt-grid{grid-template-columns:1fr}.mx{grid-template-columns:1fr}}
+
+@media(max-width:580px){
+  .hero{padding:3rem 1.25rem 2.5rem}
+  .section{padding:2rem 1rem 5rem}
+  .step-nav{flex-direction:column;gap:.65rem}
+  .t-line{grid-template-columns:70px 1fr;grid-template-rows:auto auto}
+  .t-action{grid-column:1/-1}
+}
 </style>
 </head>
 <body>
+
+<!-- TOP BAR -->
 <nav class="topbar">
-  <span class="brand">MISIÓN <span>ESCUCHA</span></span>
-  <div class="steps-track" id="stepsTrack"></div>
+  <span class="brand">LA CLÍNICA <span>· AppCampus · S3</span></span>
+  <div class="phase-track" id="phaseTrack"></div>
 </nav>
 
 <!-- HERO -->
-<section class="hero" id="sec0">
-  <div class="hero-grid"></div><div class="hero-scan"></div>
-  <div class="badge"><em>ADSO</em>· AppCampus · Sesión 2 · Análisis de Requerimientos</div>
-  <h1 class="hero-h">MISIÓN<em>ESCUCHA</em></h1>
-  <p class="hero-sub">Un analista no inventa los requerimientos. Los <strong>descubre</strong>. Primero escribe lo que ya crees saber — luego sal al campus a confirmar o refutar.</p>
-  <div class="hero-flow">
-    <div class="flow-chip"><span class="flow-icon">✍️</span><div><div class="fc-n">Paso 1</div><div class="fc-t">Escribe primero</div><div class="fc-s">Sin leer nada todavía</div></div></div>
-    <div class="flow-chip"><span class="flow-icon">📖</span><div><div class="fc-n">Paso 2</div><div class="fc-t">Aprende</div><div class="fc-s">Teoría de stakeholders</div></div></div>
-    <div class="flow-chip"><span class="flow-icon">🗂️</span><div><div class="fc-n">Paso 3</div><div class="fc-t">El Archivo</div><div class="fc-s">Hipótesis de campo</div></div></div>
-    <div class="flow-chip"><span class="flow-icon">🎤</span><div><div class="fc-n">Paso 4</div><div class="fc-t">Campo</div><div class="fc-s">Entrevistas reales</div></div></div>
-    <div class="flow-chip"><span class="flow-icon">✏️</span><div><div class="fc-n">Paso 5</div><div class="fc-t">Redacta</div><div class="fc-s">Con formato correcto</div></div></div>
-    <div class="flow-chip"><span class="flow-icon">🔓</span><div><div class="fc-n">Paso 6</div><div class="fc-t">Revelar</div><div class="fc-s">Tú vs. referencia</div></div></div>
+<div class="hero" id="heroSection">
+  <div class="hero-label">Sesión 3 · Taller de descubrimiento · ADSO ·CD  </div>
+  <h1>La Clínica de<em>Entrevistas</em></h1>
+  <p class="hero-sub">Antes de aprender cómo hacer una buena entrevista, vas a leer entrevistas <strong>malas</strong>. Tu trabajo: encontrar qué falló — sin que nadie te lo diga primero.</p>
+  <div class="hero-how">
+    <div class="how-chip"><span class="how-icon">🔬</span><div><div class="hc-n">Fase 1</div><div class="hc-t">Diagnosticar</div><div class="hc-s">Marca los errores</div></div></div>
+    <div class="how-chip"><span class="how-icon">✏️</span><div><div class="hc-n">Fase 2</div><div class="hc-t">Reconstruir</div><div class="hc-s">Rescribe las preguntas</div></div></div>
+    <div class="how-chip"><span class="how-icon">🏗️</span><div><div class="hc-n">Fase 3</div><div class="hc-t">Tu protocolo</div><div class="hc-s">Diseña la entrevista real</div></div></div>
+    <div class="how-chip"><span class="how-icon">🔓</span><div><div class="hc-n">Fase 4</div><div class="hc-t">Revelar</div><div class="hc-s">Compara con referencia</div></div></div>
   </div>
-  <button class="cta" onclick="goTo(1)">
-    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg>
-    Comenzar
+<button class="start-btn" id="startClinic">
+    <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path d="M9 18l6-6-6-6"/></svg>
+    Entrar a la Clínica
   </button>
-  <div class="hero-wm">SENA</div>
-</section>
+</div>
 
-<!-- PASO 1: ESCRIBE PRIMERO (sin teoría) -->
+<!-- ══ FASE 1: DIAGNÓSTICO ══════════════════════════════════════ -->
 <section class="section" id="sec1">
-  <div class="sec-label">Paso 01 — Antes de leer nada</div>
-  <h2 class="sec-title">¿Qué requerimientos tiene AppCampus?</h2>
-  <p class="sec-desc">Lee solo el correo de Carlos Méndez. Luego escribe los requerimientos que detectes — sin teoría, sin ejemplos de clase, solo con tu instinto.</p>
-  <div class="email-box">
-    <div class="email-bar">
-      <span><b>De:</b> Carlos Méndez &lt;c.mendez@sena.edu.co&gt;</span>
-      <span><b>Asunto:</b> Solicitud de desarrollo — AppCampus</span>
+  <div class="sec-label">Fase 01 — Diagnóstico</div>
+  <h2 class="sec-title">¿Qué está mal en estas entrevistas?</h2>
+  <p class="sec-desc">Lee cada transcript con ojo crítico. Identifica qué hizo mal el analista y márcalo. <strong>No hay un listado de errores todavía</strong> — tú los descubres.</p>
+
+  <div class="warn-box"><p>🔎 <strong>Instrucción:</strong> Haz clic en el botón del tipo de error que crees que tiene cada línea del analista. Si no sabes el nombre exacto, elige el que más se parezca. Puedes cambiar tu respuesta.</p></div>
+
+  <!-- Error legend (collapsible, starts hidden until first error picked) -->
+  <div id="legendWrap" style="margin-bottom:1.25rem">
+    <div style="font-family:var(--font-h);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem">Tipos de error que puedes marcar:</div>
+    <div class="error-legend">
+      <span class="leg-chip err-DOBLE" onclick="setActive('DOBLE')" id="leg-DOBLE">Pregunta doble</span>
+      <span class="leg-chip err-TECNICA" onclick="setActive('TECNICA')" id="leg-TECNICA">Pregunta técnica fuera de lugar</span>
+      <span class="leg-chip err-INDUCTIVA" onclick="setActive('INDUCTIVA')" id="leg-INDUCTIVA">Pregunta inductiva</span>
+      <span class="leg-chip err-CERRADA" onclick="setActive('CERRADA')" id="leg-CERRADA">Solo preguntas cerradas</span>
+      <span class="leg-chip err-SOLUCION" onclick="setActive('SOLUCION')" id="leg-SOLUCION">Propone solución</span>
+      <span class="leg-chip err-SILENCIO" onclick="setActive('SILENCIO')" id="leg-SILENCIO">Corta el silencio</span>
+      <span class="leg-chip err-SIN_NOTAS" onclick="setActive('SIN_NOTAS')" id="leg-SIN_NOTAS">Sin seguimiento / cierre falso</span>
     </div>
-    <div class="email-body">
-      <p>Cordial saludo equipo de ADSO,</p>
-      <p>Les escribo porque tenemos un problema serio en el campus. Los aprendices no se enteran de los eventos a tiempo, los coordinadores pierden el control del préstamo de aulas y la comunicación es un caos total. Necesitamos una aplicación que solucione esto lo antes posible.</p>
-      <p>Pienso que la app debería tener algo para publicar noticias y eventos. También que los estudiantes puedan inscribirse a actividades. Los profesores deben poder ver quién se inscribió. Y obviamente que funcione en el celular porque nadie usa computador.</p>
-      <p>Ah, y debe ser segura porque maneja datos de aprendices. Y rápida, porque la internet del SENA no siempre es buena.</p>
-      <p>Quedamos atentos.  — <b>Carlos Méndez, Coordinador Académico SENA</b></p>
+    <div style="font-size:.8rem;color:var(--cyan);font-style:italic">← Haz clic en un tipo para seleccionarlo, luego haz clic en la línea del analista donde ocurre.</div>
+  </div>
+
+  <!-- TRANSCRIPT A -->
+  <div class="transcript">
+    <div class="transcript-header">
+      <strong>Transcript A</strong>
+      <span>Proyecto AppCampus · Entrevista 1 con Carlos Méndez</span>
+    </div>
+    <div class="t-line" id="tA1">
+      <div class="t-speaker ana">Analista</div>
+      <div class="t-text">¿Le parece bien cómo está funcionando el campus ahora?</div>
+      <div class="t-action" id="acA1"></div>
+    </div>
+    <div class="t-line" id="tA2-c">
+      <div class="t-speaker cli">Carlos</div>
+      <div class="t-text">Bueno, hay cosas que mejorar, sobre todo en comunicación...</div>
+      <div class="t-action"></div>
+    </div>
+    <div class="t-line" id="tA2">
+      <div class="t-speaker ana">Analista</div>
+      <div class="t-text">¿Quiere que la app tenga notificaciones push, un calendario integrado y también un módulo de chat para instructores?</div>
+      <div class="t-action" id="acA2"></div>
+    </div>
+    <div class="t-line" id="tA3-c">
+      <div class="t-speaker cli">Carlos</div>
+      <div class="t-text">Sí, todo eso suena bien, supongo.</div>
+      <div class="t-action"></div>
+    </div>
+    <div class="t-line" id="tA3">
+      <div class="t-speaker ana">Analista</div>
+      <div class="t-text">¿No cree que lo mejor sería usar una plataforma existente como Microsoft Teams en lugar de desarrollar algo nuevo?</div>
+      <div class="t-action" id="acA3"></div>
+    </div>
+    <div class="t-line" id="tA4-c">
+      <div class="t-speaker cli">Carlos</div>
+      <div class="t-text">Mmm, no lo había pensado. Quizás sí.</div>
+      <div class="t-action"></div>
+    </div>
+    <div class="t-line" id="tA4">
+      <div class="t-speaker ana">Analista</div>
+      <div class="t-text">Bueno, yo creo que React Native sería la mejor opción técnica. ¿Prefiere React Native o Flutter?</div>
+      <div class="t-action" id="acA4"></div>
+    </div>
+    <div class="t-line" id="tA5-c">
+      <div class="t-speaker cli">Carlos</div>
+      <div class="t-text">No sé de eso. Ustedes son los expertos.</div>
+      <div class="t-action"></div>
+    </div>
+    <div class="t-line" id="tA5">
+      <div class="t-speaker ana">Analista</div>
+      <div class="t-text">Perfecto. Creo que ya tenemos todo. Muchas gracias.</div>
+      <div class="t-action" id="acA5"></div>
     </div>
   </div>
-  <div class="warn"><p>🚫 <strong>Regla:</strong> Solo lo que encuentras tú en el correo. Sin apuntes, sin ayuda. Aunque no sea perfecto, escríbelo.</p></div>
-  <div id="coldReqRows"></div>
-  <button class="add-row-btn" onclick="addColdRow()">＋ Agregar requerimiento</button>
+
+  <!-- TRANSCRIPT B -->
+  <div style="margin-top:1.5rem">
+    <div style="font-family:var(--font-h);font-size:.78rem;font-weight:700;color:var(--ink);margin-bottom:.65rem">Transcript B — Segunda entrevista, mismo proyecto</div>
+  </div>
+  <div class="transcript">
+    <div class="transcript-header">
+      <strong>Transcript B</strong>
+      <span>Proyecto AppCampus · Entrevista 2 con Carlos Méndez</span>
+    </div>
+    <div class="t-line" id="tB1">
+      <div class="t-speaker ana">Analista</div>
+      <div class="t-text">¿Cuántos eventos organiza el campus por mes?</div>
+      <div class="t-action" id="acB1"></div>
+    </div>
+    <div class="t-line" id="tB1-c">
+      <div class="t-speaker cli">Carlos</div>
+      <div class="t-text">Entre 8 y 12, depende del trimestre.</div>
+      <div class="t-action"></div>
+    </div>
+    <div class="t-line" id="tB2">
+      <div class="t-speaker ana">Analista</div>
+      <div class="t-text">¿Los aprendices se inscriben a los eventos?</div>
+      <div class="t-action" id="acB2"></div>
+    </div>
+    <div class="t-line" id="tB2-c">
+      <div class="t-speaker cli">Carlos</div>
+      <div class="t-text">Sí, algunos. Pero muchos no se enteran.</div>
+      <div class="t-action"></div>
+    </div>
+    <div class="t-line" id="tB3">
+      <div class="t-speaker ana">Analista</div>
+      <div class="t-text">¿La comunicación es por WhatsApp?</div>
+      <div class="t-action" id="acB3"></div>
+    </div>
+    <div class="t-line" id="tB3-c">
+      <div class="t-speaker cli">Carlos</div>
+      <div class="t-text">Sí... pero también tableros y correo. A veces todo junto.</div>
+      <div class="t-action"></div>
+    </div>
+    <div class="t-line" id="tB4">
+      <div class="t-speaker ana">Analista</div>
+      <div class="t-text">Entendido. Muchas gracias, eso es todo.</div>
+      <div class="t-action" id="acB4"></div>
+    </div>
+  </div>
+
+  <!-- Reflection -->
+  <div class="divider" data-l="Reflexión antes de continuar" style="margin:1.75rem 0"></div>
+  <div class="card">
+    <div class="card-title">✍️ En tu cuaderno — antes de ver las respuestas</div>
+    <p style="font-size:.9rem;color:var(--muted);margin-bottom:.75rem">Responde estas preguntas a partir de lo que marcaste. Son para ti, nadie las revisa aquí.</p>
+    <p style="font-size:.9rem;color:var(--text);margin-bottom:.4rem"><strong>1.</strong> ¿Cuál de los dos analistas obtuvo información más útil para el análisis? ¿Por qué?</p>
+    <p style="font-size:.9rem;color:var(--text);margin-bottom:.4rem"><strong>2.</strong> Al final del Transcript A, el analista dice "ya tenemos todo." ¿Realmente tienen todo? ¿Qué no se preguntó?</p>
+    <p style="font-size:.9rem;color:var(--text);margin-bottom:.4rem"><strong>3.</strong> En el Transcript B, Carlos dice "muchos no se enteran". ¿Qué pregunta debería haber hecho el analista en ese momento?</p>
+    <p style="font-size:.9rem;color:var(--text)"><strong>4.</strong> ¿Qué tienen en común todos los errores que encontraste?</p>
+  </div>
+
+  <div id="diagFeedback" style="margin-top:.75rem"></div>
+
   <div class="step-nav">
     <button class="snav-btn" onclick="goTo(0)">← Inicio</button>
-    <div class="snav-info">1 / 6</div>
-    <button class="snav-btn primary" onclick="saveColdAndNext()">Guardado — continuar →</button>
+    <div class="snav-info">Fase 1 de 4</div>
+    <button class="snav-btn primary" onclick="finishDiag()">Continuar — Reconstruir →</button>
   </div>
 </section>
 
-<!-- PASO 2: LECTURA -->
+<!-- ══ FASE 2: RECONSTRUCCIÓN ═══════════════════════════════════ -->
 <section class="section" id="sec2">
-  <div class="sec-label">Paso 02 — Lectura profunda</div>
-  <h2 class="sec-title">¿Quién está detrás de una app?</h2>
-  <p class="sec-desc">Ya escribiste tus hipótesis. Ahora aprende la teoría — después vas a ver cuánto acertaste.</p>
-  <div class="card card-accent">
-    <h3><span class="ic">🧩</span> ¿Qué es un stakeholder?</h3>
-    <p><strong>Stakeholder</strong> = alguien que tiene algo en juego. En software: <strong>toda persona, grupo u organización que afecta o es afectada por el sistema</strong>, sepa o no que el proyecto existe.</p>
-    <div class="callout"><div class="callout-l">Ejemplo real</div><p>Cuando WhatsApp cambió sus políticas en 2021, millones de usuarios que nunca participaron en el diseño resultaron afectados. El equipo los ignoró — y pagó el costo reputacional.</p></div>
-    <p>La diferencia entre un proyecto exitoso y uno fallido frecuentemente está en cuántos stakeholders fueron <em>escuchados antes</em> de escribir código.</p>
-  </div>
-  <div class="card card-accent">
-    <h3><span class="ic">🔍</span> Los que siempre se olvidan</h3>
-    <p>El error clásico: hablar solo con quien paga y asumir que representa a todos. Hay stakeholders que <strong>no van a reuniones</strong>, <strong>no hablan técnico</strong> y a veces ni saben que serán afectados.</p>
-    <p><strong>Usuarios indirectos:</strong> no usan el sistema pero reciben sus resultados. <strong>Stakeholders negativos:</strong> a quienes el sistema les quita poder y se opondrán. <strong>Reguladores:</strong> entidades cuyas normas el sistema debe cumplir (Ley 1581, resoluciones SENA).</p>
-    <div class="callout"><div class="callout-l">Lección crítica</div><p>Un stakeholder ignorado no desaparece. Aparece después, cuando el sistema ya está construido, para decirte que no sirve o que viola sus derechos.</p></div>
-  </div>
-  <div class="card card-accent">
-    <h3><span class="ic">👥</span> Tipos — toca cada tarjeta</h3>
-    <div class="flip-grid">
-      <div class="flip-card" onclick="this.classList.toggle('flipped')"><div class="fci"><div class="ff"><div class="big">🏦</div><h4>Patrocinador</h4><small>¿Quién es?</small></div><div class="fb"><p>Aprueba el presupuesto y los objetivos. Rara vez usa el sistema pero puede cancelarlo.</p></div></div></div>
-      <div class="flip-card" onclick="this.classList.toggle('flipped')"><div class="fci"><div class="ff"><div class="big">🤝</div><h4>Cliente Directo</h4><small>¿Quién es?</small></div><div class="fb"><p>Tiene el problema y define lo que necesita. Participa en reuniones. Interlocutor principal.</p></div></div></div>
-      <div class="flip-card" onclick="this.classList.toggle('flipped')"><div class="fci"><div class="ff"><div class="big">👨‍💻</div><h4>Usuario Final</h4><small>¿Quién es?</small></div><div class="fb"><p>Usa el sistema a diario. Sabe qué duele y qué funciona. Rara vez asiste a reuniones formales.</p></div></div></div>
-      <div class="flip-card" onclick="this.classList.toggle('flipped')"><div class="fci"><div class="ff"><div class="big">⚖️</div><h4>Regulador</h4><small>¿Quién es?</small></div><div class="fb"><p>Entidad que impone normas obligatorias: Ministerios, el SENA. No participa pero sus reglas son ley.</p></div></div></div>
-      <div class="flip-card" onclick="this.classList.toggle('flipped')"><div class="fci"><div class="ff"><div class="big">🔧</div><h4>Equipo Técnico</h4><small>¿Quién es?</small></div><div class="fb"><p>Desarrolladores, diseñadores, DBAs. Las decisiones de análisis afectan directamente su trabajo.</p></div></div></div>
-      <div class="flip-card" onclick="this.classList.toggle('flipped')"><div class="fci"><div class="ff"><div class="big">🌐</div><h4>Afectado Externo</h4><small>¿Quién es?</small></div><div class="fb"><p>No usan el sistema pero lo sienten. Ej: familias si la app comparte datos sin consentimiento.</p></div></div></div>
-    </div>
-    <p class="flip-hint">Toca cada tarjeta para ver la definición</p>
-  </div>
-  <div class="card card-accent">
-    <h3><span class="ic">📊</span> Matriz Poder / Interés</h3>
-    <p>Una vez identificados, esta matriz indica <strong>cómo gestionarlos</strong> según su autoridad sobre el proyecto y su interés en el resultado.</p>
-    <div class="mx">
-      <div class="mx-c tc1"><div class="tag">Alto poder, bajo interés</div><h4>Mantener satisfecho</h4><p>Informar periódicamente. Si se sienten excluidos pueden oponerse.</p></div>
-      <div class="mx-c tc2"><div class="tag">Alto poder, alto interés</div><h4>Gestionar de cerca</h4><p>Aliados clave. Involúcralos en todas las decisiones importantes.</p></div>
-      <div class="mx-c tc3"><div class="tag">Bajo poder, bajo interés</div><h4>Monitorear</h4><p>Mantener informados con esfuerzo mínimo.</p></div>
-      <div class="mx-c tc4"><div class="tag">Bajo poder, alto interés</div><h4>Mantener informado</h4><p>Los usuarios finales típicos. Su experiencia importa aunque no tengan poder formal.</p></div>
-    </div>
-  </div>
-  <div class="card card-accent">
-    <h3><span class="ic">🗺️</span> ¿Cómo los encuentras?</h3>
-    <p><strong>1. Organigrama:</strong> Cada rol relacionado con el proceso es un stakeholder potencial.</p>
-    <p><strong>2. Sigue el flujo:</strong> ¿Quién entrega información? ¿Quién la recibe? ¿Quién sufre cuando falla?</p>
-    <p><strong>3. Pregunta mágica:</strong> "¿Hay alguien más que debería saber de esto?" Se expanden solos.</p>
-    <p><strong>4. Análisis de impacto:</strong> Si el sistema falla mañana, ¿a quién le llega el problema primero?</p>
-    <div class="callout"><div class="callout-l">Error más común</div><p>Hablar solo con quien tiene el presupuesto. El sistema resulta correcto técnicamente pero inútil para quien lo usa.</p></div>
-  </div>
-  <div class="rbar-wrap"><div class="rbar" id="readBar"></div></div>
-  <div class="rlabel" id="readLabel">Leyendo...</div>
+  <div class="sec-label">Fase 02 — Reconstrucción</div>
+  <h2 class="sec-title">Reescribe las preguntas rotas</h2>
+  <p class="sec-desc">Tienes 5 preguntas malas del Transcript A. Para cada una: elige el tipo correcto y reescríbela en formato profesional.</p>
+
+  <div class="info-box"><p>💡 Recuerda los 6 tipos: <strong>Abierta</strong> (explorar) · <strong>Cerrada</strong> (confirmar) · <strong>Sondeo</strong> (profundizar) · <strong>Reflexiva</strong> (verificar) · <strong>Hipotética</strong> (priorizar) · <strong>Del pasado</strong> (contexto)</p></div>
+
+  <!-- Rewrite blocks -->
+  <div id="rewrites"></div>
+
   <div class="step-nav">
-    <button class="snav-btn" onclick="goTo(1)">← Paso 1</button>
-    <div class="snav-info">2 / 6</div>
-    <button class="snav-btn primary" onclick="goTo(3)">El Archivo →</button>
+    <button class="snav-btn" onclick="goTo(1)">← Diagnóstico</button>
+    <div class="snav-info">Fase 2 de 4</div>
+    <button class="snav-btn primary" onclick="finishRewrite()">Continuar — Mi protocolo →</button>
   </div>
 </section>
 
-<!-- PASO 3: EL ARCHIVO -->
+<!-- ══ FASE 3: PROTOCOLO ════════════════════════════════════════ -->
 <section class="section" id="sec3">
-  <div class="sec-label">Paso 03 — El Archivo del Caso</div>
-  <h2 class="sec-title">Hipótesis antes del campo</h2>
-  <p class="sec-desc">Ya leíste la teoría. Ahora registra tus hipótesis de quiénes son los stakeholders del campus y qué problemas tienen.</p>
-  <div style="margin-bottom:1.75rem">
-    <div class="field-lbl" style="margin-bottom:.4rem">¿Qué stakeholders crees que existen en AppCampus?</div>
-    <div style="font-size:.8rem;color:var(--text-d);margin-bottom:.5rem">Un rol por línea, con su relación al sistema.</div>
-    <textarea id="hypStakeholders" rows="5" placeholder="Coordinador académico — define los eventos&#10;Aprendices — usuarios principales&#10;Instructores — supervisan participación&#10;..." oninput="autoSave()"></textarea>
-  </div>
-  <div style="margin-bottom:1.75rem">
-    <div class="field-lbl" style="margin-bottom:.4rem">¿Qué problemas crees que tienen las personas del campus HOY?</div>
-    <textarea id="hypProblems" rows="4" placeholder="Los aprendices no saben cuándo hay eventos&#10;No hay forma de reservar aulas sin ir presencialmente&#10;..." oninput="autoSave()"></textarea>
-  </div>
-  <div style="margin-bottom:1.75rem">
-    <div class="field-lbl" style="margin-bottom:.4rem">¿Qué te sorprendería encontrar cuando salgas al campo?</div>
-    <textarea id="hypSurprise" style="min-height:56px" placeholder="No esperaría que... / Me sorprendería si..." oninput="autoSave()"></textarea>
-  </div>
-  <div class="callout"><div class="callout-l">¿Por qué esto importa?</div><p>Escribir hipótesis antes del campo las hace <strong>explícitas</strong>. Cuando vuelvas con las respuestas reales, podrás ver exactamente qué estabas asumiendo sin saberlo. Eso es pensamiento analítico.</p></div>
+  <div class="sec-label">Fase 03 — Tu Protocolo</div>
+  <h2 class="sec-title">Diseña la entrevista real</h2>
+  <p class="sec-desc">Usando lo que aprendiste diagnosticando, construye el protocolo de entrevista que usarías con Carlos Méndez en la próxima sesión de AppCampus.</p>
+
+  <div class="warn-box"><p>📌 <strong>Regla:</strong> Cada fase debe tener al menos 1 pregunta. Usa el tipo de pregunta sugerido — pero puedes agregar más de una si quieres.</p></div>
+
+  <div id="protocolBuilder"></div>
+
   <div class="step-nav">
-    <button class="snav-btn" onclick="goTo(2)">← Lectura</button>
-    <div class="snav-info">3 / 6</div>
-    <button class="snav-btn primary" onclick="saveArchiveAndNext()">Guardado — al campo →</button>
+    <button class="snav-btn" onclick="goTo(2)">← Reconstrucción</button>
+    <div class="snav-info">Fase 3 de 4</div>
+    <button class="snav-btn primary" onclick="finishProtocol()">Ver comparación →</button>
   </div>
 </section>
 
-<!-- PASO 4: CAMPO -->
+<!-- ══ FASE 4: REVELAR ══════════════════════════════════════════ -->
 <section class="section" id="sec4">
-  <div class="sec-label">Paso 04 — Misión de Campo</div>
-  <h2 class="sec-title">Encuentra a los actores</h2>
-  <p class="sec-desc">Sal al Centro de Automatización Industrial. Encuentra personas reales, preséntales AppCampus y registra sus respuestas.</p>
-  <div class="callout"><div class="callout-l">Protocolo</div><p><strong>1.</strong> Escoge mínimo 2 perfiles. <strong>2.</strong> Ve donde indica la tarjeta. <strong>3.</strong> Preséntate: "Hola, soy aprendiz del programa ADSO analizando una app para el campus. ¿Le puedo hacer unas preguntas rápidas?" <strong>4.</strong> Registra todo aquí.</p></div>
-  <div class="targets-grid" id="targetsGrid"></div>
-  <div id="fieldUnlock" class="unlock-bar" style="display:none"><p>Completa al menos <strong>2 entrevistas</strong> para continuar.</p></div>
-  <div class="step-nav">
-    <button class="snav-btn" onclick="goTo(3)">← El Archivo</button>
-    <div class="snav-info">4 / 6</div>
-    <button class="snav-btn primary" id="toWriteBtn" onclick="goTo(5)" disabled>Redactar requerimientos →</button>
-  </div>
-</section>
+  <div class="sec-label">Fase 04 — Comparar</div>
+  <h2 class="sec-title">Tu análisis + la referencia</h2>
+  <p class="sec-desc">Aquí está todo tu trabajo de la clínica. La referencia del instructor está bloqueada — revélala cuando estés listo.</p>
 
-<!-- PASO 5: REDACTA CON FORMATO -->
-<section class="section" id="sec5">
-  <div class="sec-label">Paso 05 — Redacta con la norma correcta</div>
-  <h2 class="sec-title">Requerimientos del campo</h2>
-  <p class="sec-desc">Ahora que entrevistaste stakeholders reales, redacta los requerimientos que descubriste. Usa el formato técnico correcto.</p>
-  <div class="format-reminder">
-    <h4>📐 Formato obligatorio — El sistema DEBE...</h4>
-    <div class="fmt-grid">
-      <div class="fmt-card">
-        <div class="fc-label">Fórmula</div>
-        <div style="font-size:.87rem">
-          <span style="color:var(--text-d)">El sistema</span>
-          <strong style="color:var(--green)"> DEBE </strong>
-          <span style="color:#86efac">[verbo]</span>
-          <span style="color:#93c5fd"> [objeto]</span>
-          <span style="color:#fcd34d"> [condición medible]</span>
-        </div>
-      </div>
-      <div class="fmt-card">
-        <div class="fc-label">Ejemplo</div>
-        <div style="font-size:.82rem;color:var(--text-d)">El sistema <strong style="color:var(--green)">DEBE</strong> <span style="color:#86efac">permitir al aprendiz inscribirse</span> <span style="color:#93c5fd">a un evento disponible</span> <span style="color:#fcd34d">si el cupo es mayor a 0</span>.</div>
-      </div>
-      <div class="fmt-card">
-        <div class="fc-label">Tipos</div>
-        <div style="font-size:.8rem;line-height:1.9">
-          <span class="type-rf">RF</span> <span style="font-size:.76rem;color:var(--text-d)"> = QUÉ hace</span><br>
-          <span class="type-rnf">RNF</span> <span style="font-size:.76rem;color:var(--text-d)"> = CÓMO funciona</span><br>
-          <span class="type-rd">RD</span> <span style="font-size:.76rem;color:var(--text-d)"> = Ley o norma</span>
-        </div>
-      </div>
-    </div>
-    <div style="font-size:.8rem;color:var(--text-d)">💡 Escribe los requerimientos <strong style="color:var(--text)">nuevos</strong> que descubriste en campo — los que no estaban en el correo.</div>
-  </div>
-  <div id="fieldReqRows"></div>
-  <button class="add-row-btn" onclick="addFieldRow()">＋ Agregar requerimiento</button>
-  <div class="step-nav">
-    <button class="snav-btn" onclick="goTo(4)">← Campo</button>
-    <div class="snav-info">5 / 6</div>
-    <button class="snav-btn primary" onclick="saveFieldAndCompare()">Ver mi análisis →</button>
-  </div>
-</section>
-
-<!-- PASO 6: COMPARACIÓN -->
-<section class="section" id="sec6">
-  <div class="sec-label">Paso 06 — Tu análisis completo</div>
-  <h2 class="sec-title">Lo que escribiste vs. la referencia</h2>
-  <p class="sec-desc">Aquí están tus requerimientos del paso 1 (fríos) y del campo. Cuando estés listo, revela la referencia del instructor para comparar.</p>
-  <div id="compareContent"></div>
+  <div id="summaryContent"></div>
   <div id="revealZone"></div>
+
   <div class="step-nav">
-    <button class="snav-btn" onclick="goTo(5)">← Editar</button>
-    <div class="snav-info">6 / 6</div>
-    <button class="snav-btn primary" onclick="goTo(7)">Cierre →</button>
+    <button class="snav-btn" onclick="goTo(3)">← Mi protocolo</button>
+    <div class="snav-info">Fase 4 de 4</div>
+    <button class="snav-btn primary" onclick="goTo(5)">Cierre →</button>
   </div>
 </section>
 
-<!-- CIERRE -->
-<section class="section" id="sec7">
-  <div class="sec-label">Misión completada</div>
-  <h2 class="sec-title">Eres Analista de Campo</h2>
-  <p class="sec-desc">Hoy hiciste lo que la mayoría de los equipos omite: escribiste tus hipótesis, aprendiste la teoría, saliste al campo y comparaste los resultados.</p>
-  <div class="card card-accent">
-    <h3><span class="ic">🎯</span> Para la plenaria</h3>
-    <p><strong>1.</strong> ¿Qué requerimiento escribiste en frío que resultó correcto? ¿Cuál estuvo equivocado?</p>
-    <p><strong>2.</strong> El stakeholder más inesperado que encontraste en campo.</p>
-    <p><strong>3.</strong> El requerimiento más valioso que nadie había mencionado antes del campo.</p>
-    <p><strong>4.</strong> Un requerimiento de la referencia que solo se descubre entrevistando a un stakeholder específico. ¿Cuál? ¿A quién?</p>
+<!-- ══ CIERRE ═══════════════════════════════════════════════════ -->
+<section class="section" id="sec5">
+  <div class="sec-label">Clínica completada</div>
+  <h2 class="sec-title">Eres Analista Certificado</h2>
+  <p class="sec-desc">Diagnosticaste entrevistas malas, reescribiste preguntas y diseñaste tu propio protocolo. Ahora ya sabes qué hace mala una entrevista — porque lo encontraste tú.</p>
+  <div class="card">
+    <div class="card-title">🎯 Para llevar a la plenaria</div>
+    <p style="font-size:.9rem;color:var(--text);margin-bottom:.5rem"><strong>1.</strong> ¿Cuál fue el error más común en los dos transcripts? ¿Por qué crees que es tan frecuente?</p>
+    <p style="font-size:.9rem;color:var(--text);margin-bottom:.5rem"><strong>2.</strong> En tu protocolo, ¿qué fase te costó más construir? ¿Qué te dice eso sobre dónde tienes que practicar más?</p>
+    <p style="font-size:.9rem;color:var(--text);margin-bottom:.5rem"><strong>3.</strong> ¿Qué pregunta de la referencia no habías pensado? ¿Qué stakeholder la revelaría?</p>
+    <p style="font-size:.9rem;color:var(--text)"><strong>4.</strong> Si Carlos dijera "el problema es que no tenemos tiempo", ¿qué tipo de pregunta usarías para profundizar?</p>
   </div>
-  <div class="card card-accent">
-    <h3><span class="ic">🚀</span> Lo que viene</h3>
-    <p><strong>Sesión 3:</strong> Técnicas de entrevista formal — preguntas que revelan lo que el usuario no sabe que necesita.</p>
-    <p><strong>Sesión 5:</strong> Requerimientos con identificadores únicos (RF-001, RNF-001) en la tabla oficial.</p>
-    <p><strong>Sesión 12:</strong> Presentar todo como la ERS de AppCampus ante el jurado.</p>
+  <div class="card" style="margin-top:1rem">
+    <div class="card-title">🚀 Próxima sesión</div>
+    <p style="font-size:.9rem;color:var(--muted)"><strong>Sesión 4:</strong> Técnicas de Elicitación II — Encuestas, talleres colaborativos y lluvia de ideas. Vas a triangular los requerimientos de AppCampus con múltiples fuentes.</p>
   </div>
   <div style="margin-top:2rem;text-align:center">
-    <button class="snav-btn" onclick="resetAll()" style="margin:0 auto">↺ Reiniciar misión</button>
+    <button class="snav-btn" onclick="resetAll()" style="margin:0 auto">↺ Reiniciar clínica</button>
   </div>
 </section>
 
-<!-- MODAL -->
-<div class="overlay" id="iOverlay">
-  <div class="modal">
-    <div class="modal-h">
-      <div class="modal-av" id="mAvatar"></div>
-      <div class="modal-t"><h3 id="mName"></h3><p id="mRole"></p></div>
-      <button class="modal-x" onclick="closeModal()">✕</button>
-    </div>
-    <div class="modal-b">
-      <div class="mint"><p><strong>📍 Dónde encontrarlo/a:</strong> <span id="mLocation"></span></p></div>
-      <div id="mQuestions"></div>
-    </div>
-    <div class="modal-f">
-      <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
-      <button class="btn-save" onclick="saveInterview()">Guardar</button>
-    </div>
-  </div>
-</div>
 <div id="toast"></div>
 
 <script>
-const TARGETS=[{id:'coordinador',name:'Coordinador Académico',role:'Autoridad del campus',emoji:'👔',bg:'rgba(34,197,94,.14)',location:'Oficina de coordinación académica o recepción principal',desc:'Gestiona actividades, aprueba eventos y tiene visión estratégica del campus.',questions:['¿Cuál es el mayor problema para comunicar actividades a los aprendices?','¿Qué información necesita ver de un evento para tomar decisiones?','Si pudiera cambiar UNA sola cosa del proceso actual, ¿qué sería?','¿Existe alguna restricción normativa que una app deba cumplir obligatoriamente?']},{id:'aprendiz',name:'Aprendiz ADSO',role:'Usuario principal',emoji:'🎓',bg:'rgba(59,130,246,.14)',location:'Aulas de sistemas, zonas comunes o cafetería',desc:'Usa los servicios del campus a diario. Su experiencia real es la más valiosa.',questions:['¿Cómo te enteras de los eventos del campus? ¿Qué tan confiable es ese proceso?','¿Alguna vez te perdiste un evento importante por falta de información?','¿Desde qué dispositivo preferirías usar una app del campus?','¿Qué función le pedirías sí o sí a una app del campus SENA?']},{id:'instructor',name:'Instructor de Formación',role:'Facilitador de actividades',emoji:'👩‍🏫',bg:'rgba(245,158,11,.14)',location:'Aulas de formación o sala de instructores',desc:'Organiza talleres y actividades. Necesita visibilidad de listas de participantes.',questions:['¿Qué información necesita sobre los aprendices para planear una actividad?','¿Cómo gestiona la lista de asistencia o inscripción actualmente?','¿Cuánto tiempo le toma comunicar un evento a sus aprendices?','¿Qué datos quisiera ver en tiempo real mientras se desarrolla un evento?']},{id:'bienestar',name:'Asesor/a de Bienestar',role:'Bienestar al aprendiz',emoji:'💚',bg:'rgba(16,185,129,.14)',location:'Oficina de bienestar o servicios estudiantiles',desc:'Gestiona actividades culturales, deportivas y de apoyo psicosocial.',questions:['¿Qué actividades de bienestar organiza y cómo convoca a los aprendices?','¿Tiene acceso a datos de participación en actividades anteriores?','¿Existen restricciones de privacidad que una app deba respetar?','¿Qué le falta al proceso actual que una app podría resolver?']},{id:'almacen',name:'Almacenista / Espacios',role:'Custodia de espacios',emoji:'🔑',bg:'rgba(139,92,246,.14)',location:'Área de almacén o administración de espacios',desc:'Gestiona el préstamo de aulas, auditorios, herramientas y equipos.',questions:['¿Cómo se solicita y asigna un aula para un evento actualmente?','¿Cuántos conflictos de doble reserva ocurren por mes aproximadamente?','¿Qué información necesitaría ver en una app para gestionar los espacios?','¿Hay alguna regla para el uso de espacios que el sistema deba respetar?']},{id:'gestion',name:'Gestor de Formación',role:'Procesos administrativos',emoji:'📋',bg:'rgba(239,68,68,.14)',location:'Área administrativa o secretaría académica',desc:'Supervisa cumplimiento de procesos, informes y trazabilidad.',questions:['¿Qué reportes necesita generar sobre las actividades del campus?','¿Qué normativa del SENA regula las actividades de los aprendices?','¿Cómo se documenta la participación en actividades extracurriculares?','¿Qué información de AppCampus necesitaría exportar o integrar con sistemas del SENA?']}];
+// ══ REFERENCE DATA ═══════════════════════════════════════════════
 
-const REF_REQS=[
-  {id:'R01',type:'RF', req:'El sistema DEBE permitir al coordinador publicar eventos con título, descripción, fecha y cupo máximo.',src:'Correo de Carlos',note:'Base explícita del sistema.'},
-  {id:'R02',type:'RF', req:'El sistema DEBE permitir a los aprendices inscribirse a actividades disponibles si el cupo es mayor a 0.',src:'Correo de Carlos',note:'La condición de cupo hace el RF verificable.'},
-  {id:'R03',type:'RF', req:'El sistema DEBE mostrar la lista de aprendices inscritos por actividad para los docentes.',src:'Correo de Carlos',note:'Requerimiento explícito de consulta.'},
-  {id:'R04',type:'RNF',req:'La interfaz DEBE ser compatible con dispositivos móviles con pantalla mínima de 320px.',src:'Correo de Carlos',note:'320px hace el RNF medible y verificable.'},
-  {id:'R05',type:'RD', req:'Los datos personales de los aprendices DEBEN tratarse conforme a la Ley 1581 de 2012 de Protección de Datos.',src:'Implícito — normativa',note:'Obligatorio por ley aunque Carlos no lo mencione.'},
-  {id:'R06',type:'RNF',req:'El sistema DEBE cargar la pantalla principal en menos de 3 segundos con conexiones de mínimo 2 Mbps.',src:'Correo de Carlos',note:'3 seg + 2 Mbps = RNF medible.'},
-  {id:'R07',type:'RF', req:'El sistema DEBE autenticar a los usuarios con credenciales institucionales del SENA (@sena.edu.co).',src:'Implícito — seguridad',note:'Sin autenticación no hay "datos seguros".'},
-  {id:'R08',type:'RF', req:'El coordinador DEBE poder abrir, cerrar y modificar el cupo de inscripción en cualquier momento.',src:'Implícito — inferido',note:'Si puedes publicar, debes poder modificar.'},
-  {id:'R09',type:'RF', req:'El sistema DEBE enviar notificación al aprendiz cuando su inscripción sea confirmada o cancelada.',src:'Campo — aprendices',note:'Aparece en entrevistas. No estaba en el correo.'},
-  {id:'R10',type:'RF', req:'El sistema DEBE registrar la asistencia de los aprendices a cada evento, accesible por coordinador e instructor.',src:'Campo — instructores',note:'Los instructores siempre lo piden.'},
-  {id:'R11',type:'RF', req:'El sistema DEBE permitir reservar aulas del campus vinculadas a un evento, verificando disponibilidad.',src:'Campo — almacén',note:'Solo el almacenista revela este RF.'},
-  {id:'R12',type:'RNF',req:'El sistema DEBE estar disponible el 99% del tiempo en horario institucional (6am–10pm días hábiles).',src:'Campo — coordinador',note:'Se detecta preguntando "¿qué pasa si falla?".'},
-  {id:'R13',type:'RF', req:'El sistema DEBE generar un reporte exportable (PDF o Excel) de participación por actividad y período.',src:'Campo — gestión',note:'El gestor siempre necesita reportes para dirección.'},
-  {id:'R14',type:'RD', req:'Los certificados de participación DEBEN generarse con el formato oficial del SENA según resolución vigente.',src:'Campo — gestión',note:'Muy difícil de detectar sin preguntar al gestor.'},
-  {id:'R15',type:'RNF',req:'El sistema DEBE soportar mínimo 800 usuarios concurrentes durante apertura de inscripciones.',src:'Implícito — técnico',note:'Nadie lo dice pero el día de apertura puede colapsar.'},
+const ERRORS = {
+  DOBLE:    { label:'Pregunta doble',              color:'#991b1b', bg:'#fee2e2', why:'Mete dos o más preguntas en una sola. El cliente responde solo una — o ninguna.' },
+  TECNICA:  { label:'Pregunta técnica fuera de lugar', color:'#78350f', bg:'#fde68a', why:'El cliente no sabe de tecnología. Preguntarle sobre frameworks bloquea la conversación.' },
+  INDUCTIVA:{ label:'Pregunta inductiva',          color:'#5b21b6', bg:'#ede9fe', why:'Sugiere la respuesta deseada. El cliente confirma en lugar de expresar su opinión real.' },
+  CERRADA:  { label:'Solo preguntas cerradas',     color:'#1e40af', bg:'#dbeafe', why:'Sí/No no revela contexto. La entrevista se convierte en un cuestionario binario.' },
+  SOLUCION: { label:'Propone solución',            color:'#9d174d', bg:'#fce7f3', why:'El analista debe entender el PROBLEMA, no proponer soluciones. Contamina el análisis.' },
+  SILENCIO: { label:'Corta el silencio / cierre falso', color:'#065f46', bg:'#d1fae5', why:'El cliente estaba pensando o tenía más que decir. El analista lo cortó antes de tiempo.' },
+  SIN_NOTAS:{ label:'Sin seguimiento / cierre prematuro', color:'#3730a3', bg:'#e0e7ff', why:'El analista cierra la entrevista cuando el cliente no ha dicho nada sustancial.' },
+};
+
+const CORRECT_ERRORS = {
+  acA1: 'CERRADA', acA2: 'DOBLE', acA3: 'INDUCTIVA',
+  acA4: 'TECNICA', acA5: 'SIN_NOTAS',
+  acB1: 'CERRADA', acB2: 'CERRADA', acB3: 'CERRADA', acB4: 'SILENCIO',
+};
+
+const REWRITE_CASES = [
+  { original: '¿Le parece bien cómo está funcionando el campus ahora?', error:'CERRADA', hint:'Abierta', placeholder:'Cuénteme cómo funciona actualmente el proceso de comunicación de actividades en el campus...', key:'rw1' },
+  { original: '¿Quiere que la app tenga notificaciones push, un calendario integrado y también un módulo de chat para instructores?', error:'DOBLE', hint:'Abierta', placeholder:'¿Qué funciones considera más urgentes o críticas para una app de gestión del campus?', key:'rw2' },
+  { original: '¿No cree que lo mejor sería usar una plataforma existente como Teams?', error:'INDUCTIVA', hint:'Hipotética', placeholder:'Si pudiera diseñar la solución ideal sin restricciones, ¿cómo se imaginaría que funcionaría?', key:'rw3' },
+  { original: 'Yo creo que React Native sería la mejor opción. ¿Prefiere React Native o Flutter?', error:'TECNICA', hint:'Del pasado', placeholder:'¿Han intentado antes usar alguna herramienta digital para gestionar eventos? ¿Qué pasó?', key:'rw4' },
+  { original: 'Perfecto. Creo que ya tenemos todo. Muchas gracias.', error:'SIN_NOTAS', hint:'Reflexiva', placeholder:'Si entiendo bien, el principal desafío es que los aprendices no reciben información a tiempo... ¿es correcto? ¿Hay algo más que quiera agregar?', key:'rw5' },
 ];
 
-let state={cur:0,coldReqs:[],fieldReqs:[],interviews:{},archive:{hypStakeholders:'',hypProblems:'',hypSurprise:''},active:null,revealed:false};
-try{const s=localStorage.getItem('misionV3');if(s)state=JSON.parse(s);}catch(e){}
-function save(){try{localStorage.setItem('misionV3',JSON.stringify(state));}catch(e){}}
+const PROTOCOL_PHASES = [
+  { n:'01', name:'Apertura', color:'#16a34a', bg:'#dcfce7', time:'5 min',
+    tip:'Preséntate, explica el objetivo de la sesión y pide permiso para tomar notas. El cliente debe sentir que esto es una conversación, no un interrogatorio.',
+    qLabel:'¿Cómo inicias la conversación?', qType:'(ningún tipo en particular — lenguaje de conexión)',
+    hint:'Bienvenida + objetivo + permiso para notas', key:'p1' },
+  { n:'02', name:'Contexto', color:'#1d4ed8', bg:'#dbeafe', time:'10 min',
+    tip:'Preguntas abiertas sobre cómo funciona hoy el proceso. No preguntes qué necesita todavía — primero entiende la realidad actual.',
+    qLabel:'Pregunta de contexto — tipo Abierta', qType:'Abierta',
+    hint:'¿Cómo gestiona actualmente los eventos del campus?', key:'p2' },
+  { n:'03', name:'Problema Raíz', color:'#ea580c', bg:'#ffedd5', time:'15 min',
+    tip:'Usa la técnica de los 5 Por Qué. Cuando Carlos mencione un problema, no lo aceptes en superficie — profundiza con preguntas de sondeo.',
+    qLabel:'Pregunta de sondeo para profundizar', qType:'Sondeo',
+    hint:'Cuando dices "caos en la comunicación", ¿qué ocurre exactamente?', key:'p3' },
+  { n:'04', name:'Necesidades', color:'#7c3aed', bg:'#ede9fe', time:'20 min',
+    tip:'Aquí sí puedes preguntar qué necesita. Pero primero formula preguntas que revelen prioridades — sin nombrar soluciones técnicas todavía.',
+    qLabel:'Pregunta que revele la necesidad más urgente', qType:'Hipotética',
+    hint:'Si esta app pudiera resolver solo un problema perfectamente, ¿cuál sería?', key:'p4' },
+  { n:'05', name:'Cierre', color:'#0d9488', bg:'#ccfbf1', time:'10 min',
+    tip:'Parafrasea lo que escuchaste y pide confirmación. Nunca termines sin preguntar "¿hay algo más que no pregunté y que crea que debería saber?"',
+    qLabel:'Pregunta de cierre — tipo Reflexiva', qType:'Reflexiva',
+    hint:'Si entendí bien, los tres problemas principales son X, Y y Z... ¿lo estoy entendiendo correctamente?', key:'p5' },
+];
 
+const REF_PROTOCOL = [
+  { phase:'Apertura', q:'"Hola Carlos, somos el equipo ADSO asignado al proyecto AppCampus. Nos tomará unos 45 minutos. ¿Puedo tomar notas mientras hablamos?"', type:'—', why:'Genera confianza y establece expectativas.' },
+  { phase:'Contexto', q:'"Cuénteme cómo funciona hoy el proceso de comunicación de actividades en el campus, desde que se decide hacer un evento hasta que los aprendices se enteran."', type:'A', why:'Pregunta abierta que revela todo el flujo actual sin sesgar.' },
+  { phase:'Contexto +', q:'"¿Qué herramientas usan actualmente para comunicar eventos? ¿Cómo era esto hace dos años?"', type:'P', why:'Del pasado — revela evolución y lo que funcionaba antes.' },
+  { phase:'Problema', q:'"Cuando dices que la comunicación es un caos, ¿puedes darme un ejemplo concreto de la semana pasada?"', type:'S', why:'Sondeo — convierte la queja vaga en evidencia concreta.' },
+  { phase:'Problema +', q:'"¿Por qué crees que los aprendices no se enteran a tiempo? ¿Qué pasa exactamente?"', type:'S', why:'Primer nivel de los 5 Por Qué.' },
+  { phase:'Necesidades', q:'"Si esta app pudiera resolver perfectamente solo un problema del campus, ¿cuál elegiría?"', type:'H', why:'Hipotética — revela la prioridad real sin que Carlos lo sepa.' },
+  { phase:'Necesidades +', q:'"¿Quién más, además de usted, se ve afectado cuando un evento no se comunica a tiempo?"', type:'A', why:'Abre la puerta a nuevos stakeholders que no habíamos considerado.' },
+  { phase:'Cierre', q:'"Si entendí bien, los tres problemas principales son: aprendices sin información, aulas con doble reserva y falta de registro de asistencia. ¿Estoy en lo correcto?"', type:'R', why:'Reflexiva — confirma comprensión y da oportunidad de corregir.' },
+  { phase:'Cierre +', q:'"¿Hay algo que no pregunté y que crea que deberíamos saber para diseñar bien esta app?"', type:'A', why:'La pregunta mágica de cierre. Siempre revela algo inesperado.' },
+];
+
+// ══ STATE ═════════════════════════════════════════════════════════
+let state = {
+  cur: 0,
+  errors: {},        // lineId → errorType
+  rewrites: {},      // key → { type, text }
+  protocol: {},      // key → text
+  revealed: false,
+  activeErr: null,
+};
+try{ const s=localStorage.getItem('clinicaV1'); if(s) state=JSON.parse(s); }catch(e){}
+function save(){ try{localStorage.setItem('clinicaV1',JSON.stringify(state));}catch(e){} }
+
+// ══ NAV ═══════════════════════════════════════════════════════════
 function goTo(n){
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  document.getElementById('sec0').style.display='none';
-  if(n===0){document.getElementById('sec0').style.display='block';}
-  else{const el=document.getElementById(`sec${n}`);if(el)el.classList.add('active');}
-  window.scrollTo({top:0,behavior:'smooth'});
-  state.cur=n;save();updateSteps();
-  if(n===4)renderTargets();
-  if(n===5)renderFieldReqEntry();
-  if(n===6)renderCompare();
-}
+  const hero = document.getElementById('heroSection');
 
-const STEP_NAMES=['Inicio','Escribe','Aprende','Archivo','Campo','Redacta','Revela','Cierre'];
-function updateSteps(){
-  const t=document.getElementById('stepsTrack');t.innerHTML='';
-  STEP_NAMES.forEach((name,i)=>{
-    const d=document.createElement('div');
-    d.className='step-pip '+(i<2?'w-sm':'w-md');
-    if(i<state.cur)d.classList.add('done');
-    if(i===state.cur)d.classList.add('active');
-    d.title=name;t.appendChild(d);
+  if(hero){
+    hero.style.display = n === 0 ? 'block' : 'none';
+  }
+
+  document.querySelectorAll('.section').forEach(section => {
+    section.classList.remove('active');
+  });
+
+  if(n > 0){
+    const target = document.getElementById(`sec${n}`);
+
+    if(target){
+      target.classList.add('active');
+    } else {
+      console.error(`No existe sec${n}`);
+      return;
+    }
+  }
+
+  state.cur = n;
+  save();
+  updateTrack();
+
+  if(n === 2) renderRewrites();
+  if(n === 3) renderProtocol();
+  if(n === 4) renderSummary();
+
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
   });
 }
 
-window.addEventListener('scroll',()=>{
-  const b=document.getElementById('readBar'),l=document.getElementById('readLabel');
-  if(!b)return;
-  const s=document.getElementById('sec2');
-  if(!s||!s.classList.contains('active'))return;
-  const pct=Math.min(100,Math.max(0,(-s.getBoundingClientRect().top/(s.offsetHeight-window.innerHeight))*100));
-  b.style.width=pct+'%';
-  l.textContent=pct>=95?'¡Lectura completa!':`${Math.round(pct)}% leído`;
-});
-
-// ─ COLD ROWS (paso 1) ─────────────────────────────────────────
-let coldRowCount=0;
-function initColdRows(){
-  const c=document.getElementById('coldReqRows');if(!c)return;
-  c.innerHTML='';coldRowCount=0;
-  if(state.coldReqs&&state.coldReqs.length>0){state.coldReqs.forEach(r=>addColdRow(r));}
-  else{addColdRow();}
-}
-function addColdRow(data=null){
-  coldRowCount++;const n=coldRowCount;
-  const c=document.getElementById('coldReqRows');
-  const d=document.createElement('div');d.className='req-row';d.id=`crow-${n}`;
-  if(data&&data.type)d.dataset.type=data.type;
-  d.innerHTML=`<div class="req-row-head"><div class="req-row-num">${n}</div><div style="flex:1"><div class="field-lbl">Tipo</div><div class="rtype-sel"><button class="rtype-btn ${data&&data.type==='RF'?'sel-rf':''}" onclick="cSel(${n},'RF')">RF</button><button class="rtype-btn ${data&&data.type==='RNF'?'sel-rnf':''}" onclick="cSel(${n},'RNF')">RNF</button><button class="rtype-btn ${data&&data.type==='RD'?'sel-rd':''}" onclick="cSel(${n},'RD')">RD</button></div></div><button class="req-row-del" onclick="delCold(${n})">✕</button></div><div class="field-lbl" style="margin-bottom:.28rem">Lo que el sistema debe hacer (El sistema DEBE...)</div><textarea id="ctxt-${n}" style="min-height:54px" placeholder="El sistema DEBE..." oninput="saveCold()">${data?data.text:''}</textarea>`;
-  c.appendChild(d);
-}
-function cSel(n,type){
-  const row=document.getElementById(`crow-${n}`);if(!row)return;
-  row.querySelectorAll('.rtype-btn').forEach(b=>{b.className='rtype-btn';});
-  const idx=type==='RF'?1:type==='RNF'?2:3;
-  const btn=row.querySelector(`.rtype-btn:nth-child(${idx})`);
-  if(btn)btn.classList.add(`sel-${type.toLowerCase()}`);
-  row.dataset.type=type;saveCold();
-}
-function delCold(n){const el=document.getElementById(`crow-${n}`);if(el)el.remove();saveCold();}
-function saveCold(){
-  state.coldReqs=[];
-  document.querySelectorAll('[id^="crow-"]').forEach(row=>{
-    const id=row.id.replace('crow-','');
-    const text=(document.getElementById(`ctxt-${id}`)?.value||'').trim();
-    const type=row.dataset.type||'';
-    if(text)state.coldReqs.push({text,type});
-  });save();
-}
-function saveColdAndNext(){
-  saveCold();
-  if(!state.coldReqs||state.coldReqs.length===0){showToast('⚠ Escribe al menos un requerimiento antes de continuar');return;}
-  showToast(`✓ ${state.coldReqs.length} requerimientos guardados`);goTo(2);
+const PHASE_LABELS=['Inicio','Diagnóstico','Reconstruir','Mi Protocolo','Comparar','Cierre'];
+function updateTrack(){
+  const t=document.getElementById('phaseTrack'); t.innerHTML='';
+  PHASE_LABELS.forEach((_,i)=>{
+    const d=document.createElement('div');
+    d.className='pt-dot';
+    if(i<state.cur) d.classList.add('done');
+    if(i===state.cur) d.classList.add('active');
+    t.appendChild(d);
+  });
 }
 
-// ─ ARCHIVE (paso 3) ───────────────────────────────────────────
-function autoSave(){
-  const a=state.archive||{};
-  ['hypStakeholders','hypProblems','hypSurprise'].forEach(id=>{const el=document.getElementById(id);if(el)a[id]=el.value;});
-  state.archive=a;save();
-}
-function saveArchiveAndNext(){autoSave();showToast('✓ Hipótesis guardadas — ¡al campo!');goTo(4);}
-
-// ─ TARGETS (paso 4) ────────────────────────────────────────────
-function renderTargets(){
-  const g=document.getElementById('targetsGrid');g.innerHTML='';
-  TARGETS.forEach(t=>{
-    const done=state.interviews[t.id]&&Object.values(state.interviews[t.id]).some(v=>v&&v.trim());
-    const c=document.createElement('div');c.className='tc'+(done?' done-int':'');
-    c.innerHTML=`<div class="tc-h"><div class="tc-av" style="background:${t.bg}">${t.emoji}</div><div class="tc-i"><h4>${t.name}</h4><div class="tc-role">${t.role}</div></div></div><div class="tc-b"><div class="tc-loc"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${t.location}</div><p class="tc-desc">${t.desc}</p><button class="tc-btn" onclick="openModal('${t.id}')">${done?'✏️ Editar':'🎤 Entrevistar'}</button></div>`;
-    g.appendChild(c);
-  });updateFU();
-}
-function updateFU(){
-  const n=Object.values(state.interviews).filter(iv=>iv&&Object.values(iv).some(v=>v&&v.trim())).length;
-  const btn=document.getElementById('toWriteBtn');const bar=document.getElementById('fieldUnlock');
-  if(btn)btn.disabled=n<2;
-  if(bar){bar.style.display=n>0&&n<2?'flex':'none';if(n===1)bar.querySelector('p').innerHTML='1 entrevista lista. Necesitas <strong>1 más</strong> para continuar.';}
-}
-function openModal(id){
-  const t=TARGETS.find(x=>x.id===id);if(!t)return;state.active=id;
-  document.getElementById('mAvatar').textContent=t.emoji;
-  document.getElementById('mAvatar').style.background=t.bg;
-  document.getElementById('mName').textContent=t.name;
-  document.getElementById('mRole').textContent=t.role;
-  document.getElementById('mLocation').textContent=t.location;
-  const saved=state.interviews[id]||{};
-  document.getElementById('mQuestions').innerHTML=t.questions.map((q,i)=>`<div class="qb"><div class="qb-l"><div class="qnum">${i+1}</div>Pregunta ${i+1}</div><div class="q-txt">"${q}"</div><textarea id="a_${id}_${i+1}" placeholder="Escribe lo que te respondió..." rows="3">${saved[`q${i+1}`]||''}</textarea></div>`).join('');
-  document.getElementById('iOverlay').classList.add('open');document.body.style.overflow='hidden';
-}
-function closeModal(){document.getElementById('iOverlay').classList.remove('open');document.body.style.overflow='';state.active=null;}
-function saveInterview(){
-  const id=state.active;if(!id)return;
-  const t=TARGETS.find(x=>x.id===id);const d={};
-  t.questions.forEach((_,i)=>{const el=document.getElementById(`a_${id}_${i+1}`);d[`q${i+1}`]=el?el.value.trim():'';});
-  state.interviews[id]=d;save();closeModal();renderTargets();showToast(`✓ ${t.name} entrevistado/a`);
-}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
-
-// ─ FIELD ROWS (paso 5) ─────────────────────────────────────────
-let fRowCount=0;
-function renderFieldReqEntry(){
-  const c=document.getElementById('fieldReqRows');if(!c)return;
-  c.innerHTML='';fRowCount=0;
-  if(state.fieldReqs&&state.fieldReqs.length>0){state.fieldReqs.forEach(r=>addFieldRow(r));}
-  else{addFieldRow();}
-}
-function addFieldRow(data=null){
-  fRowCount++;const n=fRowCount;
-  const c=document.getElementById('fieldReqRows');
-  const d=document.createElement('div');d.className='req-row';d.id=`frow-${n}`;
-  if(data&&data.type)d.dataset.type=data.type;
-  const srcOpts=['Correo de Carlos','Coordinador Académico','Aprendiz ADSO','Instructor de Formación','Asesor/a de Bienestar','Almacenista / Espacios','Gestor de Formación','Inferido / Implícito'].map(o=>`<option value="${o}" ${data&&data.source===o?'selected':''}>${o}</option>`).join('');
-  d.innerHTML=`<div class="req-row-head"><div class="req-row-num">${n}</div><div style="flex:1"><div class="field-lbl">Tipo</div><div class="rtype-sel"><button class="rtype-btn ${data&&data.type==='RF'?'sel-rf':''}" onclick="fSel(${n},'RF')">RF — Funcional</button><button class="rtype-btn ${data&&data.type==='RNF'?'sel-rnf':''}" onclick="fSel(${n},'RNF')">RNF — No Funcional</button><button class="rtype-btn ${data&&data.type==='RD'?'sel-rd':''}" onclick="fSel(${n},'RD')">RD — Norma</button></div></div><button class="req-row-del" onclick="delField(${n})">✕</button></div><div class="field-lbl" style="margin-bottom:.28rem">Requerimiento (El sistema DEBE...)</div><textarea id="ftxt-${n}" style="min-height:56px;margin-bottom:.6rem" placeholder="El sistema DEBE [verbo] [objeto] [condición medible]." oninput="saveField()">${data?data.text:''}</textarea><div class="field-lbl">¿De qué stakeholder viene?</div><select id="fsrc-${n}" onchange="saveField()"><option value="">Selecciona la fuente...</option>${srcOpts}</select>`;
-  c.appendChild(d);
-}
-function fSel(n,type){
-  const row=document.getElementById(`frow-${n}`);if(!row)return;
-  row.querySelectorAll('.rtype-btn').forEach(b=>{b.className='rtype-btn';});
-  const idx=type==='RF'?1:type==='RNF'?2:3;
-  const btn=row.querySelector(`.rtype-btn:nth-child(${idx})`);
-  if(btn)btn.classList.add(`sel-${type.toLowerCase()}`);
-  row.dataset.type=type;saveField();
-}
-function delField(n){const el=document.getElementById(`frow-${n}`);if(el)el.remove();saveField();}
-function saveField(){
-  state.fieldReqs=[];
-  document.querySelectorAll('[id^="frow-"]').forEach(row=>{
-    const id=row.id.replace('frow-','');
-    const text=(document.getElementById(`ftxt-${id}`)?.value||'').trim();
-    const type=row.dataset.type||'';
-    const source=document.getElementById(`fsrc-${id}`)?.value||'';
-    if(text)state.fieldReqs.push({text,type,source});
-  });save();
-}
-function saveFieldAndCompare(){
-  saveField();
-  if(!state.fieldReqs||state.fieldReqs.length===0){showToast('⚠ Agrega al menos un requerimiento del campo antes de continuar');return;}
-  state.revealed=false;save();
-  showToast(`✓ ${state.fieldReqs.length} requerimientos guardados`);goTo(6);
-}
-
-// ─ COMPARE + REVEAL (paso 6) ───────────────────────────────────
-function sim(a,b){
-  const wa=a.toLowerCase().split(/\W+/).filter(w=>w.length>4);
-  const wb=b.toLowerCase().split(/\W+/).filter(w=>w.length>4);
-  return wa.filter(w=>wb.some(r=>r.includes(w)||w.includes(r))).length>=2;
-}
-function typePill(tp){
-  const c=tp==='RF'?'type-rf':tp==='RNF'?'type-rnf':'type-rd';
-  return `<span class="${c}">${tp||'—'}</span>`;
-}
-
-function renderCompare(){
-  const wrap=document.getElementById('compareContent');
-  const revZone=document.getElementById('revealZone');
-  if(!wrap||!revZone)return;
-  wrap.innerHTML='';revZone.innerHTML='';
-  const cold=state.coldReqs||[];
-  const field=state.fieldReqs||[];
-
-  // Tabla 1: reqs fríos (paso 1)
-  wrap.innerHTML+=`
-    <div style="margin-bottom:2rem">
-      <div style="font-family:var(--font-h);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);margin-bottom:.55rem;display:flex;align-items:center;gap:.45rem">
-        <span style="width:7px;height:7px;border-radius:50%;background:var(--amber);flex-shrink:0"></span>
-        Paso 1 — Lo que escribiste ANTES de la lectura (${cold.length})
-      </div>
-      ${cold.length===0
-        ? '<div class="card" style="color:var(--text-d);font-size:.88rem">No registraste requerimientos en el paso 1.</div>'
-        : `<div style="overflow-x:auto"><table class="req-table"><thead><tr><th>#</th><th>Tu requerimiento (frío)</th><th>Tipo</th></tr></thead><tbody>
-          ${cold.map((r,i)=>`<tr style="${i%2===0?'background:rgba(245,158,11,.04)':''}"><td style="color:var(--text-d);font-size:.76rem">${i+1}</td><td style="font-size:.85rem">${r.text}</td><td>${typePill(r.type)}</td></tr>`).join('')}
-          </tbody></table></div>`}
-    </div>`;
-
-  // Tabla 2: reqs del campo (paso 5)
-  wrap.innerHTML+=`
-    <div style="margin-bottom:1.5rem">
-      <div style="font-family:var(--font-h);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--green);margin-bottom:.55rem;display:flex;align-items:center;gap:.45rem">
-        <span style="width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0"></span>
-        Paso 5 — Lo que redactaste DESPUÉS del campo (${field.length})
-      </div>
-      ${field.length===0
-        ? '<div class="card" style="color:var(--text-d);font-size:.88rem">No registraste requerimientos del campo.</div>'
-        : `<div style="overflow-x:auto"><table class="req-table"><thead><tr><th>#</th><th>Tu requerimiento (campo)</th><th>Tipo</th><th>Fuente</th></tr></thead><tbody>
-          ${field.map((r,i)=>`<tr style="${i%2===0?'background:rgba(34,197,94,.04)':''}"><td style="color:var(--text-d);font-size:.76rem">${i+1}</td><td style="font-size:.85rem">${r.text}</td><td>${typePill(r.type)}</td><td style="font-size:.76rem;color:var(--text-d)">${r.source||'—'}</td></tr>`).join('')}
-          </tbody></table></div>`}
-    </div>`;
-
-  // Reveal zone
-  if(!state.revealed){
-    revZone.innerHTML=`
-      <div class="reveal-zone">
-        <div style="font-size:2rem;margin-bottom:.75rem">🔒</div>
-        <h4>¿Listo para ver la referencia del instructor?</h4>
-        <p>Revisa bien tus dos tablas de arriba. Cuando estés seguro de que escribiste todo lo que encontraste, revela la referencia para comparar.</p>
-        <button class="reveal-btn" onclick="revealRef()">🔓 Revelar referencia del instructor</button>
-      </div>`;
-  } else {
-    buildRefTable(cold,field);
+// ══ ERROR SELECTION ═══════════════════════════════════════════════
+function setActive(type){
+  state.activeErr = state.activeErr===type ? null : type;
+  document.querySelectorAll('.leg-chip').forEach(c=>c.classList.remove('leg-sel'));
+  if(state.activeErr){
+    const el=document.getElementById(`leg-${type}`);
+    if(el) el.classList.add('leg-sel');
+    showToast(`Seleccionado: ${ERRORS[type].label}`);
   }
 }
 
-function revealRef(){
-  state.revealed=true;save();
-  const cold=state.coldReqs||[];
-  const field=state.fieldReqs||[];
-  buildRefTable(cold,field);
+function markLine(lineId){
+  if(!state.activeErr) return;
+  state.errors[lineId] = state.activeErr;
+  save();
+  renderErrorOnLine(lineId);
+  showToast('✓ Marcado');
 }
 
-function buildRefTable(cold,field){
-  const revZone=document.getElementById('revealZone');
-  const all=[...cold,...field];
 
-  let html=`
-    <div class="div-line" data-l="Referencia del instructor"></div>
-    <div style="font-family:var(--font-h);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--purple);margin-bottom:.4rem;display:flex;align-items:center;gap:.45rem">
-      <span style="width:7px;height:7px;border-radius:50%;background:var(--purple);flex-shrink:0"></span>
-      Referencia — ${REF_REQS.length} requerimientos completos de AppCampus
-    </div>
-    <div style="font-size:.82rem;color:var(--text-d);margin-bottom:.85rem">
-      <strong style="color:var(--green)">✓</strong> = coincide con algo que escribiste tú &nbsp;|&nbsp;
-      <strong style="color:var(--muted)">—</strong> = aún no lo detectaste
-    </div>
-    <div style="overflow-x:auto;margin-bottom:1.75rem"><table class="req-table"><thead><tr>
-      <th>ID</th><th>Requerimiento de referencia</th><th>Tipo</th><th>Fuente</th><th>¿Lo encontraste?</th><th>Nota</th>
-    </tr></thead><tbody>`;
+function clearLine(lineId){
+  delete state.errors[lineId];
+  save();
+  renderErrorOnLine(lineId);
+}
 
-  REF_REQS.forEach((ref,i)=>{
-    const found=all.some(r=>sim(r.text,ref.req));
-    const bg=i%2===0?'rgba(167,139,250,.04)':'';
-    html+=`<tr style="background:${bg}">
-      <td style="font-family:var(--font-h);font-size:.73rem;color:var(--text-d);white-space:nowrap">${ref.id}</td>
-      <td style="font-size:.84rem">${ref.req}</td>
-      <td>${typePill(ref.type)}</td>
-      <td style="font-size:.72rem;color:var(--text-d)">${ref.src}</td>
-      <td style="text-align:center;font-size:1rem">${found?'<span style="color:var(--green);font-weight:700">✓</span>':'<span style="color:var(--muted)">—</span>'}</td>
-      <td style="font-size:.72rem;color:var(--text-d);font-style:italic">${ref.note}</td>
-    </tr>`;
+function renderErrorOnLine(lineId){
+  const el=document.getElementById(lineId);
+const actionId = 'ac' + lineId.replace('t','').replace('-c','');
+const ac = document.getElementById(actionId);
+  if(!el||!ac) return;
+  const err=state.errors[lineId];
+  if(err){
+    el.classList.add('marked-error');
+    const E=ERRORS[err];
+    ac.innerHTML=`<span class="err-btn active-err err-${err}" style="cursor:default">${E.label}</span><button class="clear-err-btn" onclick="event.stopPropagation();clearLine('${lineId}')">✕</button>`;
+  } else {
+    el.classList.remove('marked-error');
+    ac.innerHTML=`<button class="err-btn err-CERRADA" onclick="event.stopPropagation();markLine('${lineId}')" style="font-size:.62rem;background:#f1f5f9;color:#475569;border:1px dashed #cbd5e1">+ marcar error</button>`;
+  }
+}
+
+function initTranscript(){
+  const anaLines=['tA1','tA2','tA3','tA4','tA5','tB1','tB2','tB3','tB4'];
+  anaLines.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el){
+      el.style.cursor='pointer';
+      el.onclick=()=>{ if(state.activeErr) markLine(id); else showToast('Selecciona un tipo de error arriba primero'); };
+    }
+    renderErrorOnLine(id);
   });
-  html+=`</tbody></table></div>`;
+}
 
-  const matched=REF_REQS.filter(ref=>all.some(r=>sim(r.text,ref.req)));
-  const coldM=REF_REQS.filter(ref=>cold.some(r=>sim(r.text,ref.req)));
-  const ownDisc=all.filter(r=>!REF_REQS.some(ref=>sim(r.text,ref.req)));
-  const missing=REF_REQS.length-matched.length;
+function finishDiag(){
+  const marked=Object.keys(state.errors).length;
+  if(marked<3){
+    showToast('⚠ Marca al menos 3 errores antes de continuar');
+    const el=document.getElementById('diagFeedback');
+    el.innerHTML=`<div class="warn-box"><p>Llevas ${marked} errores marcados. Intenta encontrar al menos 3 antes de continuar.</p></div>`;
+    return;
+  }
+  showToast(`✓ ${marked} errores marcados`);
+  goTo(2);
+}
 
-  html+=`
-    <div style="background:linear-gradient(135deg,rgba(167,139,250,.07),rgba(167,139,250,.02));border:1px solid rgba(167,139,250,.24);border-radius:var(--r2);padding:1.5rem">
-      <div style="font-family:var(--font-h);font-weight:800;font-size:1rem;color:var(--text-b);margin-bottom:1.1rem">📊 Tu resultado</div>
-      <div class="stats-grid">
-        <div class="stat-box"><div class="stat-num" style="color:var(--amber)">${cold.length}</div><div class="stat-lbl">reqs. fríos</div></div>
-        <div class="stat-box"><div class="stat-num" style="color:var(--green)">${field.length}</div><div class="stat-lbl">reqs. del campo</div></div>
-        <div class="stat-box"><div class="stat-num" style="color:var(--purple)">${matched.length}<span style="font-size:.9rem;color:var(--text-d)">/${REF_REQS.length}</span></div><div class="stat-lbl">coincidencias</div></div>
-        <div class="stat-box"><div class="stat-num" style="color:#60a5fa">${ownDisc.length}</div><div class="stat-lbl">descubrimientos propios</div></div>
+// ══ REWRITES ══════════════════════════════════════════════════════
+function renderRewrites(){
+  const c=document.getElementById('rewrites'); c.innerHTML='';
+  REWRITE_CASES.forEach((rw,i)=>{
+    const saved=state.rewrites[rw.key]||{};
+    const E=ERRORS[rw.error];
+    const div=document.createElement('div');
+    div.className='rw-block';
+    div.innerHTML=`
+      <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem">
+        <div style="font-family:var(--font-h);font-weight:800;font-size:.8rem;color:${E.color};background:${E.bg};padding:.22rem .6rem;border-radius:4px">${E.label}</div>
+        <div style="font-size:.75rem;color:var(--muted);font-style:italic">${E.why}</div>
       </div>
-      <div class="ins-item"><div class="ins-icon">📌</div><div>En frío (sin teoría) encontraste <strong>${coldM.length} de ${REF_REQS.length}</strong> requerimientos de referencia. Después del campo llegaste a <strong>${matched.length}</strong>. Esa diferencia es el valor de salir a escuchar.</div></div>
-      ${ownDisc.length>0?`<div class="ins-item"><div class="ins-icon">⭐</div><div>Tienes <strong>${ownDisc.length} requerimiento${ownDisc.length>1?'s':''} que no están en la referencia</strong>. No significa que estén mal — pueden ser hallazgos únicos de tu entrevista. ¡Compártelos en la plenaria!</div></div>`:''}
-      ${missing>0?`<div class="ins-item"><div class="ins-icon">→</div><div>Faltan <strong>${missing}</strong> requerimientos vs. la referencia. Los marcados con <span style="color:var(--muted)">—</span> en la tabla son los que solo aparecen con stakeholders específicos (R11 → almacén, R13–R14 → gestión de formación).</div></div>`:'<div class="ins-item"><div class="ins-icon">🏆</div><div>¡Encontraste todos los requerimientos de referencia! Trabajo de campo excepcional.</div></div>'}
-      <div class="ins-item"><div class="ins-icon">→</div><div>¿Cuántos <strong>RD</strong> identificaste? Son los más difíciles — solo aparecen entrevistando gestores o investigando la normativa del SENA.</div></div>
+      <div class="rw-label">Pregunta original (mala)</div>
+      <div class="rw-original">"${rw.original}"</div>
+      <div class="rw-label" style="color:var(--green)">Tipo de pregunta correcto para reemplazarla</div>
+      <div class="rw-type-sel" id="rts-${rw.key}">
+        ${['Abierta','Cerrada','Sondeo','Reflexiva','Hipotética','Del pasado'].map(t=>`
+          <button class="rw-type-btn ${saved.type===t?'sel':''}" onclick="selRwType('${rw.key}','${t}',this)">${t}</button>
+        `).join('')}
+      </div>
+      <div class="rw-good-label">Tu versión mejorada</div>
+      <textarea id="rwtx-${rw.key}" placeholder="${rw.placeholder}" oninput="saveRw('${rw.key}')">${saved.text||''}</textarea>
+      <div style="font-size:.76rem;color:var(--cyan);font-style:italic;margin-top:.4rem">💡 Pista: intenta una pregunta de tipo "${rw.hint}"</div>`;
+    c.appendChild(div);
+  });
+}
+
+function selRwType(key,type,btn){
+  state.rewrites[key]=state.rewrites[key]||{};
+  state.rewrites[key].type=type;
+  save();
+  const wrap=document.getElementById(`rts-${key}`);
+  if(wrap) wrap.querySelectorAll('.rw-type-btn').forEach(b=>{ b.className='rw-type-btn'+(b.textContent.trim()===type?' sel':''); });
+}
+function saveRw(key){
+  state.rewrites[key]=state.rewrites[key]||{};
+  state.rewrites[key].text=(document.getElementById(`rwtx-${key}`)?.value||'').trim();
+  save();
+}
+
+function finishRewrite(){
+  const done=Object.values(state.rewrites).filter(r=>r.text&&r.text.length>10).length;
+  if(done<3){ showToast('⚠ Reescribe al menos 3 preguntas antes de continuar'); return; }
+  showToast(`✓ ${done} preguntas reescritas`);
+  goTo(3);
+}
+
+// ══ PROTOCOL BUILDER ══════════════════════════════════════════════
+const PHASE_COLORS=['#16a34a','#1d4ed8','#ea580c','#7c3aed','#0d9488'];
+function renderProtocol(){
+  const c=document.getElementById('protocolBuilder'); c.innerHTML='';
+  PROTOCOL_PHASES.forEach((ph,i)=>{
+    const saved=state.protocol[ph.key]||'';
+    const div=document.createElement('div');
+    div.className='proto-phase';
+    div.innerHTML=`
+      <div class="proto-phase-head" style="background:${ph.bg}">
+        <div class="phase-num" style="background:${ph.color};color:#fff">${ph.n}</div>
+        <div>
+          <div class="phase-name">${ph.name}</div>
+          <div style="font-size:.75rem;color:${ph.color};font-weight:600">${ph.qType}</div>
+        </div>
+        <div class="phase-time">${ph.time}</div>
+      </div>
+      <div class="proto-phase-body">
+        <div class="proto-tips"><strong>Objetivo de esta fase:</strong> ${ph.tip}</div>
+        <div class="proto-q-label">${ph.qLabel}</div>
+        <div class="q-type-hint">Tipo sugerido: ${ph.qType}</div>
+        <textarea id="ptx-${ph.key}" placeholder="${ph.hint}..." rows="2" oninput="saveProto('${ph.key}')">${saved}</textarea>
+      </div>`;
+    c.appendChild(div);
+  });
+}
+function saveProto(key){
+  state.protocol[key]=(document.getElementById(`ptx-${key}`)?.value||'').trim();
+  save();
+}
+function finishProtocol(){
+  const done=Object.values(state.protocol).filter(v=>v&&v.length>5).length;
+  if(done<3){ showToast('⚠ Completa al menos 3 fases del protocolo antes de continuar'); return; }
+  state.revealed=false; save();
+  showToast(`✓ Protocolo guardado (${done}/5 fases)`);
+  goTo(4);
+}
+
+// ══ COMPARE + REVEAL ══════════════════════════════════════════════
+function renderSummary(){
+  const c=document.getElementById('summaryContent');
+  const rz=document.getElementById('revealZone');
+  c.innerHTML=''; rz.innerHTML='';
+
+  const totalAna=9; // analyst lines in both transcripts
+  const marked=Object.keys(state.errors).length;
+  const correct=Object.entries(state.errors).filter(([k,v])=>CORRECT_ERRORS[`ac${k.replace('t','')}`]===v).length;
+  const rwDone=Object.values(state.rewrites).filter(r=>r.text&&r.text.length>10).length;
+  const prDone=Object.values(state.protocol).filter(v=>v&&v.length>5).length;
+
+  c.innerHTML=`
+    <div style="margin-bottom:1.75rem">
+      <div style="font-family:var(--font-h);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);margin-bottom:.75rem;display:flex;align-items:center;gap:.45rem">
+        <span style="width:7px;height:7px;border-radius:50%;background:var(--cyan);flex-shrink:0"></span>Tu trabajo en la Clínica
+      </div>
+      <div class="stat-grid">
+        <div class="stat-box"><div class="stat-num" style="color:var(--red)">${marked}</div><div class="stat-lbl">errores marcados</div></div>
+        <div class="stat-box"><div class="stat-num" style="color:var(--green)">${correct}</div><div class="stat-lbl">clasificaciones correctas</div></div>
+        <div class="stat-box"><div class="stat-num" style="color:var(--blue)">${rwDone}</div><div class="stat-lbl">preguntas reescritas</div></div>
+        <div class="stat-box"><div class="stat-num" style="color:var(--purple)">${prDone}<span style="font-size:.9rem;color:var(--faint)">/5</span></div><div class="stat-lbl">fases del protocolo</div></div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:1.5rem">
+      <div style="font-family:var(--font-h);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);margin-bottom:.55rem">Tu protocolo diseñado</div>
+      ${PROTOCOL_PHASES.map(ph=>{
+        const text=state.protocol[ph.key]||'';
+        return `<div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:.85rem 1rem;margin-bottom:.5rem;display:flex;gap:.75rem;align-items:flex-start">
+          <div style="width:7px;height:7px;border-radius:50%;background:${ph.color};flex-shrink:0;margin-top:.5rem"></div>
+          <div>
+            <div style="font-family:var(--font-h);font-size:.72rem;font-weight:700;color:${ph.color};margin-bottom:.2rem">${ph.name}</div>
+            <div style="font-size:.88rem;color:${text?'var(--text)':'var(--faint)'};font-style:${text?'normal':'italic'}">${text||'(sin respuesta)'}</div>
+          </div>
+        </div>`;
+      }).join('')}
     </div>`;
 
-  revZone.innerHTML=html;
+  if(!state.revealed){
+    rz.innerHTML=`
+      <div class="reveal-zone">
+        <div style="font-size:2rem;margin-bottom:.65rem">🔒</div>
+        <h4>¿Listo para ver el análisis de referencia?</h4>
+        <p>Revisa tu protocolo de arriba. Cuando estés seguro, revela la referencia del instructor para comparar los errores y el protocolo correcto.</p>
+        <button class="reveal-btn" onclick="doReveal()">🔓 Revelar referencia del instructor</button>
+      </div>`;
+  } else {
+    buildReference();
+  }
 }
 
+function doReveal(){ state.revealed=true; save(); buildReference(); }
+
+function buildReference(){
+  const rz=document.getElementById('revealZone');
+
+  // Error analysis
+  let errHtml=`
+    <div style="height:1px;background:var(--border);margin:1.75rem 0;position:relative">
+      <span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--bg);padding:0 .85rem;font-family:var(--font-h);font-size:.62rem;color:var(--faint);letter-spacing:.12em;text-transform:uppercase">Referencia del instructor</span>
+    </div>
+    <div style="font-family:var(--font-h);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--purple);margin-bottom:.55rem;display:flex;align-items:center;gap:.45rem">
+      <span style="width:7px;height:7px;border-radius:50%;background:var(--purple);flex-shrink:0"></span>
+      Análisis correcto de los transcripts
+    </div>
+    <div class="compare-wrap" style="margin-bottom:1.75rem">
+    <table class="compare-table"><thead><tr>
+      <th>Línea</th><th>Pregunta del analista</th><th>Error correcto</th><th>Tú marcaste</th><th>¿Coincide?</th><th>Por qué es un error</th>
+    </tr></thead><tbody>`;
+
+  const lineMap={
+    acA1:{label:'A-1',text:'¿Le parece bien cómo está funcionando...?'},
+    acA2:{label:'A-2',text:'¿Quiere notificaciones push, calendario y chat?'},
+    acA3:{label:'A-3',text:'¿No cree que lo mejor sería Teams?'},
+    acA4:{label:'A-4',text:'React Native o Flutter...'},
+    acA5:{label:'A-5',text:'Ya tenemos todo. Muchas gracias.'},
+    acB1:{label:'B-1',text:'¿Cuántos eventos organizan por mes?'},
+    acB2:{label:'B-2',text:'¿Los aprendices se inscriben?'},
+    acB3:{label:'B-3',text:'¿La comunicación es por WhatsApp?'},
+    acB4:{label:'B-4',text:'Entendido. Muchas gracias, eso es todo.'},
+  };
+
+  Object.entries(CORRECT_ERRORS).forEach(([ac,correctType],i)=>{
+    const info=lineMap[ac]||{};
+    const marked=state.errors[`t${ac.replace('ac','')}`];
+    const match=marked===correctType;
+    const E=ERRORS[correctType]||{};
+    const Eu=marked?ERRORS[marked]:null;
+    const bg=i%2===0?'':'background:#fafbfc';
+    errHtml+=`<tr style="${bg}">
+      <td style="font-family:var(--font-h);font-size:.72rem;color:var(--muted)">${info.label||ac}</td>
+      <td style="font-size:.83rem;font-style:italic">"${info.text||''}"</td>
+      <td><span class="err-btn err-${correctType}" style="cursor:default;font-size:.63rem">${E.label||correctType}</span></td>
+      <td>${marked?`<span class="err-btn err-${marked}" style="cursor:default;font-size:.63rem">${Eu?Eu.label:marked}</span>`:'<span style="color:var(--faint);font-size:.8rem">—</span>'}</td>
+      <td style="text-align:center;font-size:1rem">${match?'<span style="color:var(--green);font-weight:700">✓</span>':'<span style="color:var(--faint)">—</span>'}</td>
+      <td style="font-size:.78rem;color:var(--muted);font-style:italic">${E.why||''}</td>
+    </tr>`;
+  });
+  errHtml+=`</tbody></table></div>`;
+
+  // Reference protocol
+  let prHtml=`
+    <div style="font-family:var(--font-h);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--green);margin-bottom:.55rem;display:flex;align-items:center;gap:.45rem">
+      <span style="width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0"></span>
+      Protocolo de referencia — AppCampus
+    </div>
+    <div style="font-size:.82rem;color:var(--muted);margin-bottom:.85rem">
+      <strong style="color:var(--cyan)">A/C/S/R/H/P</strong> = Abierta / Cerrada / Sondeo / Reflexiva / Hipotética / Del pasado
+    </div>
+    <div class="compare-wrap" style="margin-bottom:1.75rem">
+    <table class="compare-table"><thead><tr>
+      <th>Fase</th><th>Pregunta de referencia</th><th>Tipo</th><th>Por qué funciona</th>
+    </tr></thead><tbody>`;
+
+  REF_PROTOCOL.forEach((r,i)=>{
+    const bg=i%2===0?'':'background:#fafbfc';
+    prHtml+=`<tr style="${bg}">
+      <td style="font-family:var(--font-h);font-size:.72rem;color:var(--muted);white-space:nowrap">${r.phase}</td>
+      <td style="font-size:.84rem;font-style:italic">${r.q}</td>
+      <td style="text-align:center">${r.type!=='—'?`<span class="q-pill qp-${r.type}">${r.type}</span>`:'—'}</td>
+      <td style="font-size:.78rem;color:var(--muted)">${r.why}</td>
+    </tr>`;
+  });
+  prHtml+=`</tbody></table></div>`;
+
+  // Key insights
+  const myErr=Object.keys(state.errors).length;
+  const correct=Object.entries(state.errors).filter(([k,v])=>CORRECT_ERRORS[`ac${k.replace('t','')}`]===v).length;
+  const totalLines=Object.keys(CORRECT_ERRORS).length;
+
+  const insightsHtml=`
+    <div style="background:linear-gradient(135deg,#f0fdf4,#ecfdf5);border:1px solid #86efac;border-radius:var(--r2);padding:1.5rem;margin-top:1rem">
+      <div style="font-family:var(--font-h);font-weight:800;font-size:1rem;color:var(--ink);margin-bottom:1.1rem">💡 Conclusiones de la clínica</div>
+      <div class="insight"><div class="insight-icon">📌</div><div>Detectaste correctamente <strong>${correct} de ${totalLines}</strong> errores. Los que más se escapan suelen ser los de tipo "Cierre prematuro" — porque el analista cree que tiene suficiente información cuando en realidad no exploró el problema.</div></div>
+      <div class="insight"><div class="insight-icon">→</div><div>El Transcript B parece "mejor" porque el analista no comete errores graves. Pero produce <strong>información inútil</strong> — solo datos superficiales. Una entrevista sin errores técnicos puede seguir siendo mala si no profundiza.</div></div>
+      <div class="insight"><div class="insight-icon">→</div><div>La pregunta más valiosa del protocolo de referencia es la última: <strong>"¿Hay algo que no pregunté que debería saber?"</strong> — Siempre revela algo que el analista no había pensado en preguntar.</div></div>
+      <div class="insight"><div class="insight-icon">→</div><div>Nota que el protocolo de referencia tiene 9 preguntas para 5 fases. Las fases con más preguntas son Contexto, Problema y Necesidades — las fases de descubrimiento real. Apertura y Cierre son solo marcos.</div></div>
+    </div>`;
+
+  rz.innerHTML = errHtml + prHtml + insightsHtml;
+}
+
+// ══ UTILS ═════════════════════════════════════════════════════════
 function showToast(msg){
-  const t=document.getElementById('toast');t.textContent=msg;
-  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);
+  const t=document.getElementById('toast'); t.textContent=msg;
+  t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500);
 }
 function resetAll(){
-  if(!confirm('¿Borrar toda la misión y empezar de nuevo?'))return;
-  state={cur:0,coldReqs:[],fieldReqs:[],interviews:{},archive:{hypStakeholders:'',hypProblems:'',hypSurprise:''},active:null,revealed:false};
-  save();location.reload();
+  if(!confirm('¿Borrar todo el trabajo de la clínica y empezar de nuevo?')) return;
+  state={cur:0,errors:{},rewrites:{},protocol:{},revealed:false,activeErr:null};
+  save(); location.reload();
 }
 
+// ══ INIT ══════════════════════════════════════════════════════════
 function init(){
-  updateSteps();
-  const a=state.archive||{};
-  ['hypStakeholders','hypProblems','hypSurprise'].forEach(id=>{const el=document.getElementById(id);if(el&&a[id])el.value=a[id];});
-  initColdRows();
-  document.querySelectorAll('.flip-card').forEach(c=>{c.addEventListener('touchend',()=>c.classList.toggle('flipped'));});
-  document.getElementById('iOverlay').addEventListener('click',e=>{if(e.target===document.getElementById('iOverlay'))closeModal();});
-  if(state.cur&&state.cur!==0)goTo(state.cur);
+  updateTrack();
+  initTranscript();
+  const hero = document.getElementById('heroSection');
+  if(hero) hero.style.display='block';
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  if(state.cur && state.cur>0){
+    if(hero) hero.style.display='none';
+    goTo(state.cur);
+  }
+  if(state.activeErr){
+    const el=document.getElementById(`leg-${state.activeErr}`);
+    if(el) el.classList.add('leg-sel');
+  }
 }
-init();
+document.addEventListener('DOMContentLoaded', () => {
+  init();
+
+  const startBtn = document.getElementById('startClinic');
+  if(startBtn){
+    startBtn.addEventListener('click', () => goTo(1));
+  }
+});
 </script>
 </body>
 </html>
